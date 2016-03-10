@@ -17,7 +17,6 @@ Maximum Capacity
 
 ### Plan
 
-* Get projects running
 * Basic scene
 * Vehicle physics
 * Obstacles
