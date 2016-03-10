@@ -25,14 +25,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
   </ItemGroup>
-  <Target Name="_AddUrhoIosAssets" BeforeTargets="_CollectBundleResources" Condition="'$(TargetFrameworkIdentifier)'=='Xamarin.iOS'"> 
+  <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
-      <Output TaskParameter="OutputItems" ItemName="BundleResource" /> 
+      <Output TaskParameter="OutputItems" ItemName="_UrhoAssetWithLink" />
     </AssignLinkMetadata> 
-  </Target> 
-  <Target Name="_AddUrhoAndroidAssets" BeforeTargets="PrepareForBuild" Condition="'$(TargetFrameworkIdentifier)'=='MonoDroid'"> 
-    <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
-      <Output TaskParameter="OutputItems" ItemName="AndroidAsset" /> 
-    </AssignLinkMetadata> 
+    <ItemGroup>
+	<AndroidAsset Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='MonoDroid'"/>
+	<BundleResource Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='Xamarin.iOS'" />
+	<None Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'" />
+    </ItemGroup>
   </Target> 
 </Project>
