@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Urho;
+﻿using Urho;
 using Urho.Gui;
 using Urho.Actions;
-using Urho.Shapes;
 
 namespace TrainJam2016
 {
@@ -29,6 +24,7 @@ namespace TrainJam2016
 
         async void CreateScene()
         {
+            /*
             // UI text 
             var helloText = new Text(Context);
             helloText.Value = GameName;
@@ -37,6 +33,7 @@ namespace TrainJam2016
             helloText.SetColor(new Color(r: 0f, g: 1f, b: 1f));
             helloText.SetFont(font: ResourceCache.GetFont("Fonts/Font.ttf"), size: 30);
             UI.Root.AddChild(helloText);
+            */
 
             // 3D scene with Octree
             var scene = new Scene(Context);

@@ -1,6 +1,4 @@
-﻿using Urho;
-
-namespace TrainJam2016.Desktop
+﻿namespace TrainJam2016.Desktop
 {
     class Program
     {

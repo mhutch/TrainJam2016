@@ -60,11 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Data\Fonts\Font.ttf" />
-    <AndroidAsset Include="Assets\Data\Models\Box.mdl" />
-    <AndroidAsset Include="Assets\Data\Models\Sphere.mdl" />
-    <AndroidAsset Include="Assets\Data\Materials\BoxMaterial.xml" />
-    <AndroidAsset Include="Assets\Data\Textures\xamarin.png" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\Assets\Assets.projitems" Label="Shared" Condition="Exists('..\Assets\Assets.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\UrhoSharp.1.0.360\build\MonoAndroid\UrhoSharp.targets" Condition="Exists('..\packages\UrhoSharp.1.0.360\build\MonoAndroid\UrhoSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

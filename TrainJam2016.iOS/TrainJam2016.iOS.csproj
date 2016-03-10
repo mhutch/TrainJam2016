@@ -137,11 +137,6 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <Content Include="Entitlements.plist" />
     <None Include="packages.config" />
-    <BundleResource Include="Resources\Data\Fonts\Font.ttf" />
-    <BundleResource Include="Resources\Data\Models\Box.mdl" />
-    <BundleResource Include="Resources\Data\Models\Sphere.mdl" />
-    <BundleResource Include="Resources\Data\Materials\BoxMaterial.xml" />
-    <BundleResource Include="Resources\Data\Textures\xamarin.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -159,6 +154,10 @@
       <Project>{47BBBF31-9620-4C61-81BA-EAA693F72A78}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <Import Project="..\Assets\Assets.projitems" Label="Shared" Condition="Exists('..\Assets\Assets.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\UrhoSharp.1.0.360\build\Xamarin.iOS10\UrhoSharp.targets" Condition="Exists('..\packages\UrhoSharp.1.0.360\build\Xamarin.iOS10\UrhoSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{841E4604-187A-4449-9981-73689779A566}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Assets</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Fonts\Font.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\BoxMaterial.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Box.mdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Sphere.mdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\xamarin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+  </ItemGroup>
+  <Target Name="_AddUrhoIosAssets" BeforeTargets="_CollectBundleResources" Condition="'$(TargetFrameworkIdentifier)'=='Xamarin.iOS'"> 
+    <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
+      <Output TaskParameter="OutputItems" ItemName="BundleResource" /> 
+    </AssignLinkMetadata> 
+  </Target> 
+  <Target Name="_AddUrhoAndroidAssets" BeforeTargets="PrepareForBuild" Condition="'$(TargetFrameworkIdentifier)'=='MonoDroid'"> 
+    <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
+      <Output TaskParameter="OutputItems" ItemName="AndroidAsset" /> 
+    </AssignLinkMetadata> 
+  </Target> 
+</Project>
