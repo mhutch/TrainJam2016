@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016", "TrainJam2016\TrainJam2016.csproj", "{47BBBF31-9620-4C61-81BA-EAA693F72A78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.Core", "TrainJam2016.Core\TrainJam2016.Core.csproj", "{47BBBF31-9620-4C61-81BA-EAA693F72A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.Android", "TrainJam2016.Android\TrainJam2016.Android.csproj", "{FB39AA55-3132-4F96-93B1-6DA799D45646}"
 EndProject

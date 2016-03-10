@@ -6,9 +6,9 @@
     <ProjectGuid>{767A01A0-17CF-4562-BE1F-C57BE89DC2D8}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TrainJam2016.iOS</RootNamespace>
+    <RootNamespace>TrainJam2016</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>TrainJam2016.iOS</AssemblyName>
+    <AssemblyName>TrainJam2016</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -149,8 +149,8 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrainJam2016\TrainJam2016.csproj">
-      <Name>TrainJam2016</Name>
+    <ProjectReference Include="..\TrainJam2016.Core\TrainJam2016.Core.csproj">
+      <Name>TrainJam2016.Core</Name>
       <Project>{47BBBF31-9620-4C61-81BA-EAA693F72A78}</Project>
     </ProjectReference>
   </ItemGroup>

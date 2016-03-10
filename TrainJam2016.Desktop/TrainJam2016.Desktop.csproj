@@ -7,8 +7,8 @@
     <ProjectGuid>{ECC350C2-88BF-4905-B4CB-8FAEC47DFF8C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrainJam2016.Desktop</RootNamespace>
-    <AssemblyName>TrainJam2016.Desktop</AssemblyName>
+    <RootNamespace>TrainJam2016</RootNamespace>
+    <AssemblyName>TrainJam2016</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -67,8 +67,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrainJam2016\TrainJam2016.csproj">
-      <Name>TrainJam2016</Name>
+    <ProjectReference Include="..\TrainJam2016.Core\TrainJam2016.Core.csproj">
+      <Name>TrainJam2016.Core</Name>
       <Project>{47BBBF31-9620-4C61-81BA-EAA693F72A78}</Project>
     </ProjectReference>
   </ItemGroup>
