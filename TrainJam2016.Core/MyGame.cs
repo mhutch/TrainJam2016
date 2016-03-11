@@ -76,7 +76,13 @@ namespace TrainJam2016
                 }
 
                 // Physics update has completed. Position camera behind vehicle
-                Quaternion dir = vehicleRotation;
+                // Start with the vehcle's heading. Using YawAngle then FromAxisAngle sometimes starts going wrong way?
+                var dir = vehicleNode.Rotation;
+                dir.X = 0f;
+                dir.Z = 0f;
+                dir.Normalize();
+
+                //add in the mouse/touch yaw and pitch
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitY, vehicle.Controls.Yaw);
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitX, vehicle.Controls.Pitch);
 
@@ -144,7 +150,7 @@ namespace TrainJam2016
                         vehicle.Controls.Pitch += (float)input.MouseMoveY * Vehicle.YawSensitivity;
                     }
                     // Limit pitch
-                    vehicle.Controls.Pitch = MathHelper.Clamp(vehicle.Controls.Pitch, 0.0f, 80.0f);
+                    vehicle.Controls.Pitch = MathHelper.Clamp(vehicle.Controls.Pitch, 10.0f, 60.0f);
                     vehicle.Controls.Yaw = MathHelper.Clamp(vehicle.Controls.Yaw, -80f, 80.0f);
                 }
                 else
