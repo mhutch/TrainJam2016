@@ -130,9 +130,9 @@ namespace TrainJam2016
             hullBody = node.CreateComponent<RigidBody>();
             CollisionShape hullShape = node.CreateComponent<CollisionShape>();
 
-            node.Scale = new Vector3(1.5f, 1.0f, 3.0f);
+            node.Scale = new Vector3(3.0f, 1.0f, 3.0f);
             hullObject.Model = Application.ResourceCache.GetModel("Models/Box.mdl");
-            hullObject.SetMaterial(Application.ResourceCache.GetMaterial("Materials/Stone.xml"));
+            hullObject.SetMaterial(Application.ResourceCache.GetMaterial(Assets.Materials.Stone));
             hullObject.CastShadows = true;
             hullShape.SetBox(Vector3.One, Vector3.Zero, Quaternion.Identity);
             hullBody.Mass = 4.0f;
@@ -165,7 +165,7 @@ namespace TrainJam2016
             Constraint wheelConstraint = wheelNode.CreateComponent<Constraint>();
 
             wheelObject.Model = (Application.ResourceCache.GetModel("Models/Cylinder.mdl"));
-            wheelObject.SetMaterial(Application.ResourceCache.GetMaterial("Materials/Stone.xml"));
+            wheelObject.SetMaterial(Application.ResourceCache.GetMaterial(Assets.Materials.Stone));
             wheelObject.CastShadows = true;
             wheelShape.SetSphere(1.0f, Vector3.Zero, Quaternion.Identity);
             wheelBody.Friction = (1.0f);

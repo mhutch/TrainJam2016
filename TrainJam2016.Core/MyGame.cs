@@ -237,8 +237,8 @@ namespace TrainJam2016
             terrain.PatchSize = 64;
             terrain.Spacing = new Vector3(32.0f, 0.2f, 32.0f); // Spacing between vertices and vertical resolution of the height map
             terrain.Smoothing = false;
-            terrain.SetHeightMap(cache.GetImage("Textures/HeightMap.png"));
-            terrain.Material = cache.GetMaterial("Materials/Terrain.xml");
+            terrain.SetHeightMap(cache.GetImage(Assets.Textures.HeightMap));
+            terrain.Material = cache.GetMaterial(Assets.Materials.Terrain);
             // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
             // terrain patches and other objects behind it
             terrain.Occluder = true;
@@ -327,8 +327,8 @@ namespace TrainJam2016
                 objectNode.Rotation = Quaternion.FromRotationTo(Vector3.UnitY, terrain.GetNormal(position));
                 objectNode.SetScale(3.0f);
                 StaticModel sm = objectNode.CreateComponent<StaticModel>();
-                sm.Model = (cache.GetModel("Models/Mushroom.mdl"));
-                sm.SetMaterial(cache.GetMaterial("Materials/Mushroom.xml"));
+                sm.Model = (cache.GetModel(Assets.Models.Mushroom));
+                sm.SetMaterial(cache.GetMaterial(Assets.Materials.Mushroom));
                 sm.CastShadows = true;
 
                 var body = objectNode.CreateComponent<RigidBody>();
@@ -391,14 +391,14 @@ namespace TrainJam2016
             }
 
             TouchEnabled = true;
-            var layout = ResourceCache.GetXmlFile("UI/ScreenJoystick_Samples.xml");
+            var layout = ResourceCache.GetXmlFile(Assets.UI.ScreenJoystick);
             if (!string.IsNullOrEmpty(JoystickLayoutPatch))
             {
                 var patchXmlFile = new XmlFile();
                 patchXmlFile.FromString(JoystickLayoutPatch);
                 layout.Patch(patchXmlFile);
             }
-            var screenJoystickIndex = Input.AddScreenJoystick(layout, ResourceCache.GetXmlFile("UI/DefaultStyle.xml"));
+            var screenJoystickIndex = Input.AddScreenJoystick(layout, ResourceCache.GetXmlFile(Assets.UI.DefaultStyle));
             Input.SetScreenJoystickVisible(screenJoystickIndex, true);
         }
 
@@ -409,7 +409,7 @@ namespace TrainJam2016
         {
             var cache = ResourceCache;
 
-            var xml = cache.GetXmlFile("UI/DefaultStyle.xml");
+            var xml = cache.GetXmlFile(Assets.UI.DefaultStyle);
             console = Engine.CreateConsole();
             console.DefaultStyle = xml;
             console.Background.Opacity = 0.8f;

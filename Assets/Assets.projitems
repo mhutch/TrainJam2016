@@ -10,56 +10,41 @@
   </PropertyGroup>
   <ItemGroup>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Fonts\Font.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Box.mdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Sphere.mdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Mushroom.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Terrain.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail1.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail2.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail3.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainWeights.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\HeightMap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Mushroom.mdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Mushroom.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Stone.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneDiffuse.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneNormal.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\DefaultStyle.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\UI.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick_Samples.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick.xml" />
   </ItemGroup>
   <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
@@ -68,7 +53,9 @@
     <ItemGroup>
 	<AndroidAsset Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='MonoDroid'" />
 	<BundleResource Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='Xamarin.iOS'" />
-	<None Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'" />
+	<None Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
     </ItemGroup>
   </Target> 
 </Project>

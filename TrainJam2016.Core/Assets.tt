@@ -1,0 +1,35 @@
+﻿﻿<#@ template language="C#" hostSpecific="True" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+
+public static class Assets
+{
+<#
+//TODO: find a way to check they're actually in the project
+var dataDir = Path.GetFullPath (Host.ResolvePath (Path.Combine ("..", "Assets", "Data")));
+var directories = Directory.GetDirectories(dataDir);
+foreach (var d in directories) {
+	var dirName = Path.GetFileName(d);
+#>
+	public static class <#=dirName#>
+	{
+<#
+		var files = Directory.GetFiles(d);
+		foreach (var f in files) {
+			var fileName = Path.GetFileNameWithoutExtension(f);
+			if (string.IsNullOrEmpty (fileName))
+				continue;
+			var assetPath = f.Substring(dataDir.Length+1).Replace('\\','/');
+#>
+			public const string <#=fileName#> = "<#=assetPath#>";
+<#
+		}
+#>
+	}
+
+<#
+}
+#>
+}
