@@ -8,8 +8,8 @@ Maximum Capacity
 
 ### Concept
 
-* Top down vehicle driving game
-* Infinite terrain with obstacles
+* Vehicle driving game
+* Terrain with obstacles
 * Pickups that stack up on top of the vehicle and make it more diffcult to drive
 * Aim is to reach maximum capacity
 
@@ -17,11 +17,11 @@ Maximum Capacity
 
 ### Plan
 
-* Basic scene
-* Vehicle physics
-* Obstacles
-* Procedural terrain
-* Basic effects
+* Stacking physics
+* Terrain art
+* Prettier pickups
+* Prettier vehicle
+* Better obstacles
 * Sound
 * Music
 * Title screen
