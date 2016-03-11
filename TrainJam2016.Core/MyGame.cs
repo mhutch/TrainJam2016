@@ -179,6 +179,8 @@ namespace TrainJam2016
             vehicleNode.AddComponent(vehicle);
             // Create the rendering and physics components
             vehicle.Init();
+
+            vehicle.hullBody.Friction = 1f;
         }
 
 
@@ -256,6 +258,7 @@ namespace TrainJam2016
                 {
                     pickup.Enabled = false;
                     ExpandAndDisappear(pickup.Node);
+                    SpawnStackingBlock();
                 }
             });
         }
@@ -268,6 +271,33 @@ namespace TrainJam2016
                 new Urho.Actions.FadeOut (duration)
             ));
             node.Remove();
+        }
+
+        async void SpawnStackingBlock()
+        {
+            var pos = vehicle.Node.Position;
+            physi
+            pos.Y += 5f;
+
+            Node node = scene.CreateChild("StackingBlock");
+            node.Scale = new Vector3(3f, 1f, 5f);
+            node.Position = pos;
+            node.Rotation = vehicle.Node.Rotation;
+
+            var box = node.CreateComponent<Box>();
+            box.CastShadows = true;
+
+            var body = node.CreateComponent<RigidBody>();
+            body.CollisionLayer = CollisionLayer.Blocks;
+            body.CollisionMask = CollisionLayer.Blocks | CollisionLayer.Vehicle | CollisionLayer.Static;
+            body.Mass = 5f;
+            body.Friction = 1f;
+            body.LinearDamping = vehicle.hullBody.LinearDamping;
+            body.SetLinearVelocity (vehicle.hullBody.LinearVelocity);
+            var shape = node.CreateComponent<CollisionShape>();
+            shape.SetTriangleMesh(box.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
+
+            await node.RunActionsAsync(new Urho.Actions.FadeIn (0.2f));
         }
 
         static RigidBody GetCollisionNode (PhysicsCollisionEventArgs args, string name)
@@ -394,5 +424,6 @@ namespace TrainJam2016
         public static uint Vehicle = 1;
         public static uint Static = 1 << 1;
         public static uint Pickups = 1 << 2;
+        public static uint Blocks = 1 << 3;
     }
 }

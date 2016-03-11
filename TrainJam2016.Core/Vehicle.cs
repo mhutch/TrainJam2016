@@ -56,7 +56,7 @@ namespace TrainJam2016
         Constraint frontRightAxis;
 
         // Hull and wheel rigid bodies.
-        RigidBody hullBody;
+        public RigidBody hullBody;
         RigidBody frontLeftBody;
         RigidBody frontRightBody;
         RigidBody rearLeftBody;
