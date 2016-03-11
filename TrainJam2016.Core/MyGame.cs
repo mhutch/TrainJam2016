@@ -43,33 +43,34 @@ namespace TrainJam2016
         void SubscribeToEvents()
         {
             Engine.SubscribeToPostUpdate(args =>
+            {
+                if (vehicle == null)
+                    return;
+
+                Node vehicleNode = vehicle.Node;
+
+                // Physics update has completed. Position camera behind vehicle
+                Quaternion dir = Quaternion.FromAxisAngle(Vector3.UnitY, vehicleNode.Rotation.YawAngle);
+                dir = dir * Quaternion.FromAxisAngle(Vector3.UnitY, vehicle.Controls.Yaw);
+                dir = dir * Quaternion.FromAxisAngle(Vector3.UnitX, vehicle.Controls.Pitch);
+
+                Vector3 cameraTargetPos = vehicleNode.Position - (dir * new Vector3(0.0f, 0.0f, CameraDistance));
+                Vector3 cameraStartPos = vehicleNode.Position;
+
+                // Raycast camera against static objects (physics collision mask 2)
+                // and move it closer to the vehicle if something in between
+                Ray cameraRay = new Ray(cameraStartPos, cameraTargetPos - cameraStartPos);
+                float cameraRayLength = (cameraTargetPos - cameraStartPos).Length;
+                var result = new PhysicsRaycastResult ();
+                scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, 2);
+
+                if (result.Body != null)
                 {
-                    if (vehicle == null)
-                        return;
+                    cameraTargetPos = cameraStartPos + cameraRay.Direction * (result.Distance - 0.5f);
+                }
 
-                    Node vehicleNode = vehicle.Node;
-
-                    // Physics update has completed. Position camera behind vehicle
-                    Quaternion dir = Quaternion.FromAxisAngle(Vector3.UnitY, vehicleNode.Rotation.YawAngle);
-                    dir = dir * Quaternion.FromAxisAngle(Vector3.UnitY, vehicle.Controls.Yaw);
-                    dir = dir * Quaternion.FromAxisAngle(Vector3.UnitX, vehicle.Controls.Pitch);
-
-                    Vector3 cameraTargetPos = vehicleNode.Position - (dir * new Vector3(0.0f, 0.0f, CameraDistance));
-                    Vector3 cameraStartPos = vehicleNode.Position;
-
-                    // Raycast camera against static objects (physics collision mask 2)
-                    // and move it closer to the vehicle if something in between
-                    Ray cameraRay = new Ray(cameraStartPos, cameraTargetPos - cameraStartPos);
-                    float cameraRayLength = (cameraTargetPos - cameraStartPos).Length;
-                    PhysicsRaycastResult result = new PhysicsRaycastResult();
-                    scene.GetComponent<PhysicsWorld>().RaycastSingle(ref result, cameraRay, cameraRayLength, 2);
-                    if (result.Body != null)
-                    {
-                        cameraTargetPos = cameraStartPos + cameraRay.Direction * (result.Distance - 0.5f);
-                    }
-
-                    CameraNode.Position = cameraTargetPos;
-                    CameraNode.Rotation = dir;
+                CameraNode.Position = cameraTargetPos;
+                CameraNode.Rotation = dir;
                 });
 
             scene.GetComponent<PhysicsWorld>().SubscribeToPhysicsPreStep(args => vehicle?.FixedUpdate(args.TimeStep));
@@ -84,10 +85,10 @@ namespace TrainJam2016
                 // Get movement controls and assign them to the vehicle component. If UI has a focused element, clear controls
                 if (UI.FocusElement == null)
                 {
-                    vehicle.Controls.Set(Vehicle.CtrlForward, input.GetKeyDown(Key.W));
-                    vehicle.Controls.Set(Vehicle.CtrlBack, input.GetKeyDown(Key.S));
-                    vehicle.Controls.Set(Vehicle.CtrlLeft, input.GetKeyDown(Key.A));
-                    vehicle.Controls.Set(Vehicle.CtrlRight, input.GetKeyDown(Key.D));
+                    vehicle.Controls.Set(Vehicle.CtrlForward, input.GetKeyDown(Key.W) || input.GetKeyDown (Key.Up));
+                    vehicle.Controls.Set(Vehicle.CtrlBack, input.GetKeyDown(Key.S) || input.GetKeyDown(Key.Down));
+                    vehicle.Controls.Set(Vehicle.CtrlLeft, input.GetKeyDown(Key.A) || input.GetKeyDown(Key.Left));
+                    vehicle.Controls.Set(Vehicle.CtrlRight, input.GetKeyDown(Key.D) || input.GetKeyDown(Key.Right));
 
                     // Add yaw & pitch from the mouse motion or touch input. Used only for the camera, does not affect motion
                     if (TouchEnabled)
