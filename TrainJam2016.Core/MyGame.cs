@@ -27,17 +27,31 @@ namespace TrainJam2016
         {
             InitTouchInput();
 
-            Input.SubscribeToKeyDown(args =>
-            {
-                if (args.Key == Key.Esc)
-                    Engine.Exit();
-            });
+            Input.SubscribeToKeyDown(HandleKeyDown);
         
             CreateScene();
 
             CreateVehicle();
 
             SubscribeToEvents();
+
+            CreateConsoleAndDebugHud();
+        }
+
+        void HandleKeyDown(KeyDownEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Esc:
+                    Engine.Exit();
+                    return;
+                case Key.F1:
+                    console.Toggle();
+                    return;
+                case Key.F2:
+                    debugHud.ToggleAll();
+                    return;
+            }
         }
 
         void SubscribeToEvents()
@@ -246,6 +260,22 @@ namespace TrainJam2016
             }
             var screenJoystickIndex = Input.AddScreenJoystick(layout, ResourceCache.GetXmlFile("UI/DefaultStyle.xml"));
             Input.SetScreenJoystickVisible(screenJoystickIndex, true);
+        }
+
+        UrhoConsole console;
+        DebugHud debugHud;
+
+        void CreateConsoleAndDebugHud()
+        {
+            var cache = ResourceCache;
+
+            var xml = cache.GetXmlFile("UI/DefaultStyle.xml");
+            console = Engine.CreateConsole();
+            console.DefaultStyle = xml;
+            console.Background.Opacity = 0.8f;
+
+            debugHud = Engine.CreateDebugHud();
+            debugHud.DefaultStyle = xml;
         }
    }
 }

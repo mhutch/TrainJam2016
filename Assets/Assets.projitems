@@ -54,6 +54,12 @@
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneNormal.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\DefaultStyle.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\UI.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </UrhoAsset>
   </ItemGroup>
   <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
