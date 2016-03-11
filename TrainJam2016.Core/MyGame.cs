@@ -3,6 +3,7 @@ using Urho;
 using Urho.Physics;
 using Urho.Resources;
 using Urho.Shapes;
+using System.Collections.Generic;
 
 namespace TrainJam2016
 {
@@ -245,55 +246,67 @@ namespace TrainJam2016
             terrain.Occluder = true;
 
             RigidBody body = terrainNode.CreateComponent<RigidBody>();
-            body.CollisionLayer = CollisionLayer.Static;
+            body.CollisionLayer = CollisionLayer.Terrain;
             CollisionShape shape = terrainNode.CreateComponent<CollisionShape>();
             shape.SetTerrain(0);
 
             SpawnObstacles(cache, terrain);
             SpawnPickups(cache, terrain);
 
-            physicsWorld.SubscribeToPhysicsCollision(args =>
-            {
-                RigidBody pickup = GetCollisionNode(args, "Pickup");
-                if (pickup != null)
-                {
-                    pickup.Enabled = false;
-                    ExpandAndDisappear(pickup.Node);
-                    SpawnStackingBlock();
-                }
-            });
+            physicsWorld.SubscribeToPhysicsCollision(HandlePhysicsCollision);
         }
 
-        async void ExpandAndDisappear(Node node)
+        void HandlePhysicsCollision(PhysicsCollisionEventArgs args)
         {
-            const float duration = 0.2f;
+            var layerA = args.BodyA.CollisionLayer;
+            var layerB = args.BodyB.CollisionLayer;
+            var layers = layerA | layerB;
+
+            if (layers == (CollisionLayer.Pickup | CollisionLayer.Vehicle))
+            {
+                var node = (layerA == CollisionLayer.Pickup) ? args.NodeA : args.NodeB;
+                node.GetComponent<RigidBody>().Enabled = false;
+                ScaleAndDisappear(node, 0.2f, 1.5f);
+                SpawnStackingBlock();
+                return;
+            }
+
+            if (layers == (CollisionLayer.Block | CollisionLayer.Terrain))
+            {
+                var node = (layerA == CollisionLayer.Block) ? args.NodeA : args.NodeB;
+                node.GetComponent<RigidBody>().Enabled = false;
+                ScaleAndDisappear(node, 0.5f, 0.2f);
+                return;
+            }
+        }
+
+        public static async void ScaleAndDisappear(Node node, float duration, float scale)
+        {
             await node.RunActionsAsync(new Urho.Actions.Parallel (
-                new Urho.Actions.ScaleBy(duration, 1.5f),
+                new Urho.Actions.ScaleBy(duration, scale),
                 new Urho.Actions.FadeOut (duration)
             ));
             node.Remove();
         }
 
-        async void SpawnStackingBlock()
+        int liveBlocks;
+        const float minBlockSpawnDelay = 1f;
+        float lastBlockSpawnTime;
+
+        void SpawnStackingBlock()
         {
-            var pos = vehicle.Node.Position;
-
-            var result = new PhysicsRaycastResult();
-            float cameraRayLength = 100;
-            var cameraRayFrom = new Vector3(pos.X, pos.Y + 100, pos.Z);
-            var cameraRayDirection = -Vector3.UnitY;
-            var cameraRay = new Ray(cameraRayFrom, cameraRayDirection);
-            scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, CollisionLayer.Block);
-
-            pos.Y += 3f;
-            if (result.Body != null)
+            //FIXME: collision misbehaves when blocks are added too quickly
+            var time = Time.ElapsedTime;
+            if ((time - lastBlockSpawnTime) < minBlockSpawnDelay)
             {
-                pos.Y += cameraRayLength - result.Distance;
+                return;
             }
+            lastBlockSpawnTime = time;
+
+            liveBlocks++;
 
             Node node = scene.CreateChild("StackingBlock");
             node.Scale = new Vector3(3f, 1f, 3f);
-            node.Position = pos;
             node.Rotation = vehicle.Node.Rotation;
 
             var box = node.CreateComponent<Box>();
@@ -305,25 +318,29 @@ namespace TrainJam2016
             body.Friction = 5f;
             body.Restitution = 0.1f;
             body.LinearDamping = vehicle.hullBody.LinearDamping;
-            body.SetLinearVelocity (vehicle.hullBody.LinearVelocity);
+            body.SetLinearVelocity(vehicle.hullBody.LinearVelocity);
 
             var shape = node.CreateComponent<CollisionShape>();
             shape.SetBox(Vector3.One, Vector3.Zero, Quaternion.Identity);
 
-            await node.RunActionsAsync(new Urho.Actions.FadeIn (0.2f));
-        }
+            var pos = vehicle.Node.Position;
 
-        static RigidBody GetCollisionNode (PhysicsCollisionEventArgs args, string name)
-        {
-            RigidBody body = args.BodyA;
-            if (body.Node.Name == name)
-                return body;
+            var result = new PhysicsRaycastResult();
+            float cameraRayLength = 100;
+            var cameraRayFrom = new Vector3(pos.X, pos.Y + 100, pos.Z);
+            var cameraRayDirection = -Vector3.UnitY;
+            var cameraRay = new Ray(cameraRayFrom, cameraRayDirection);
+            scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, uint.MaxValue);
 
-            body = args.BodyB;
-            if (body.Node.Name == name)
-                return body;
+            pos.Y += 3f;
+            if (result.Body != null)
+            {
+                pos.Y += cameraRayLength - result.Distance;
+            }
 
-            return null;
+            node.Position = pos;
+
+            node.RunActionsAsync(new Urho.Actions.FadeIn(0.2f));
         }
 
         void SpawnObstacles(ResourceCache cache, Terrain terrain)
@@ -368,7 +385,7 @@ namespace TrainJam2016
                 sm.CastShadows = false;
 
                 var body = objectNode.CreateComponent<RigidBody>();
-                body.CollisionLayer = CollisionLayer.Pickups;
+                body.CollisionLayer = CollisionLayer.Pickup;
                 body.Trigger = true;
                 var shape = objectNode.CreateComponent<CollisionShape>();
                 shape.SetBox (Vector3.One, Vector3.Zero, Quaternion.Identity);
@@ -436,7 +453,8 @@ namespace TrainJam2016
     {
         public static uint Vehicle = 1;
         public static uint Static = 1 << 1;
-        public static uint Pickups = 1 << 2;
+        public static uint Pickup = 1 << 2;
         public static uint Block = 1 << 3;
+        public static uint Terrain = 1 << 4;
     }
 }
