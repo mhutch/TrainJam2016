@@ -12,7 +12,7 @@ namespace TrainJam2016
         public const string GameCopyright = "Copyright © 2016 Mikayla Hutchinson";
 
         const float TouchSensitivity = 2;
-        const float CameraDistance = 10.0f;
+        const float CameraDistance = 30.0f;
 
         Vehicle vehicle;
         Scene scene;
@@ -64,7 +64,7 @@ namespace TrainJam2016
                 Node vehicleNode = vehicle.Node;
 
                 // Physics update has completed. Position camera behind vehicle
-                Quaternion dir = Quaternion.FromAxisAngle(Vector3.UnitY, vehicleNode.Rotation.YawAngle);
+                Quaternion dir = vehicleRotation;
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitY, vehicle.Controls.Yaw);
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitX, vehicle.Controls.Pitch);
 
@@ -75,7 +75,7 @@ namespace TrainJam2016
                 // and move it closer to the vehicle if something in between
                 Ray cameraRay = new Ray(cameraStartPos, cameraTargetPos - cameraStartPos);
                 float cameraRayLength = (cameraTargetPos - cameraStartPos).Length;
-                var result = new PhysicsRaycastResult ();
+                var result = new PhysicsRaycastResult();
                 scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, 2);
 
                 if (result.Body != null)
@@ -85,7 +85,7 @@ namespace TrainJam2016
 
                 CameraNode.Position = cameraTargetPos;
                 CameraNode.Rotation = dir;
-                });
+            });
 
             scene.GetComponent<PhysicsWorld>().SubscribeToPhysicsPreStep(args => vehicle?.FixedUpdate(args.TimeStep));
         }
@@ -99,7 +99,7 @@ namespace TrainJam2016
                 // Get movement controls and assign them to the vehicle component. If UI has a focused element, clear controls
                 if (UI.FocusElement == null)
                 {
-                    vehicle.Controls.Set(Vehicle.CtrlForward, input.GetKeyDown(Key.W) || input.GetKeyDown (Key.Up));
+                    vehicle.Controls.Set(Vehicle.CtrlForward, input.GetKeyDown(Key.W) || input.GetKeyDown(Key.Up));
                     vehicle.Controls.Set(Vehicle.CtrlBack, input.GetKeyDown(Key.S) || input.GetKeyDown(Key.Down));
                     vehicle.Controls.Set(Vehicle.CtrlLeft, input.GetKeyDown(Key.A) || input.GetKeyDown(Key.Left));
                     vehicle.Controls.Set(Vehicle.CtrlRight, input.GetKeyDown(Key.D) || input.GetKeyDown(Key.Right));
