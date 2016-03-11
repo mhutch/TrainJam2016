@@ -54,6 +54,9 @@ namespace TrainJam2016
             }
         }
 
+        const float cameraResetTimeout = 0.2f;
+        const float cameraSnapRate = 2f;
+
         void SubscribeToEvents()
         {
             Engine.SubscribeToPostUpdate(args =>
@@ -62,6 +65,15 @@ namespace TrainJam2016
                     return;
 
                 Node vehicleNode = vehicle.Node;
+                Quaternion vehicleRotation = vehicleNode.Rotation;
+
+                timeSinceLastMouse += args.TimeStep;
+                if (timeSinceLastMouse > cameraResetTimeout)
+                {
+                    var snap = args.TimeStep * cameraSnapRate;
+                    vehicle.Controls.Yaw -= vehicle.Controls.Yaw * Math.Min (1f, snap);
+                    vehicle.Controls.Pitch += (20f - vehicle.Controls.Pitch) * snap;// 0.95f;
+                }
 
                 // Physics update has completed. Position camera behind vehicle
                 Quaternion dir = vehicleRotation;
@@ -89,6 +101,8 @@ namespace TrainJam2016
 
             scene.GetComponent<PhysicsWorld>().SubscribeToPhysicsPreStep(args => vehicle?.FixedUpdate(args.TimeStep));
         }
+
+        float timeSinceLastMouse;
 
         protected override void OnUpdate(float timeStep)
         {
@@ -121,14 +135,22 @@ namespace TrainJam2016
                     }
                     else
                     {
+                        if (input.MouseMoveY != 0 || input.MouseMoveX != 0)
+                        {
+                            timeSinceLastMouse = 0;
+                        }
+
                         vehicle.Controls.Yaw += (float)input.MouseMoveX * Vehicle.YawSensitivity;
                         vehicle.Controls.Pitch += (float)input.MouseMoveY * Vehicle.YawSensitivity;
                     }
                     // Limit pitch
                     vehicle.Controls.Pitch = MathHelper.Clamp(vehicle.Controls.Pitch, 0.0f, 80.0f);
+                    vehicle.Controls.Yaw = MathHelper.Clamp(vehicle.Controls.Yaw, -80f, 80.0f);
                 }
                 else
+                {
                     vehicle.Controls.Set(Vehicle.CtrlForward | Vehicle.CtrlBack | Vehicle.CtrlLeft | Vehicle.CtrlRight, false);
+                }
             }
         }
 
