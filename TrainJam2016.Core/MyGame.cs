@@ -30,7 +30,7 @@ namespace TrainJam2016
             InitTouchInput();
 
             Input.SubscribeToKeyDown(HandleKeyDown);
-        
+
             CreateScene();
 
             CreateVehicle();
@@ -171,7 +171,7 @@ namespace TrainJam2016
             Node vehicleNode = scene.CreateChild("Vehicle");
 
             var position = new Vector3(0.0f, 5.0f, 0.0f);
-            position.Y = terrain.GetHeight(position) + 5f;
+            position.Y = terrain.GetHeight(position) + 2f;
             vehicleNode.Position = position;
 
             // Create the vehicle logic component
@@ -180,6 +180,7 @@ namespace TrainJam2016
             // Create the rendering and physics components
             vehicle.Init();
 
+            //stop blocks sliding off too easily
             vehicle.hullBody.Friction = 1f;
         }
 
@@ -276,8 +277,19 @@ namespace TrainJam2016
         async void SpawnStackingBlock()
         {
             var pos = vehicle.Node.Position;
-            physi
-            pos.Y += 5f;
+
+            var result = new PhysicsRaycastResult();
+            float cameraRayLength = 100;
+            var cameraRayFrom = new Vector3(pos.X, pos.Y + 100, pos.Z);
+            var cameraRayDirection = -Vector3.UnitY;
+            var cameraRay = new Ray(cameraRayFrom, cameraRayDirection);
+            scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, CollisionLayer.Block);
+
+            pos.Y += 2f;
+            if (result.Body != null)
+            {
+                pos.Y += cameraRayLength - result.Distance;
+            }
 
             Node node = scene.CreateChild("StackingBlock");
             node.Scale = new Vector3(3f, 1f, 5f);
@@ -288,14 +300,15 @@ namespace TrainJam2016
             box.CastShadows = true;
 
             var body = node.CreateComponent<RigidBody>();
-            body.CollisionLayer = CollisionLayer.Blocks;
-            body.CollisionMask = CollisionLayer.Blocks | CollisionLayer.Vehicle | CollisionLayer.Static;
+            body.CollisionLayer = CollisionLayer.Block;
             body.Mass = 5f;
-            body.Friction = 1f;
+            body.Friction = 2f;
+            body.Restitution = 0.1f;
             body.LinearDamping = vehicle.hullBody.LinearDamping;
             body.SetLinearVelocity (vehicle.hullBody.LinearVelocity);
+
             var shape = node.CreateComponent<CollisionShape>();
-            shape.SetTriangleMesh(box.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
+            shape.SetBox(Vector3.One, Vector3.Zero, Quaternion.Identity);
 
             await node.RunActionsAsync(new Urho.Actions.FadeIn (0.2f));
         }
@@ -334,7 +347,7 @@ namespace TrainJam2016
                 var body = objectNode.CreateComponent<RigidBody>();
                 body.CollisionLayer = CollisionLayer.Static;
                 var shape = objectNode.CreateComponent<CollisionShape>();
-                shape.SetTriangleMesh(sm.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
+                shape.SetSphere (1.2f, Vector3.Zero, Quaternion.Identity);
             }
         }
 
@@ -358,7 +371,7 @@ namespace TrainJam2016
                 body.CollisionLayer = CollisionLayer.Pickups;
                 body.Trigger = true;
                 var shape = objectNode.CreateComponent<CollisionShape>();
-                shape.SetTriangleMesh(sm.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
+                shape.SetBox (Vector3.One, Vector3.Zero, Quaternion.Identity);
             }
         }
 
@@ -424,6 +437,6 @@ namespace TrainJam2016
         public static uint Vehicle = 1;
         public static uint Static = 1 << 1;
         public static uint Pickups = 1 << 2;
-        public static uint Blocks = 1 << 3;
+        public static uint Block = 1 << 3;
     }
 }
