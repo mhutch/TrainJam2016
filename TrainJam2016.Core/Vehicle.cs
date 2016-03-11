@@ -138,7 +138,7 @@ namespace TrainJam2016
             hullBody.Mass = 4.0f;
             hullBody.LinearDamping = 0.2f; // Some air resistance
             hullBody.AngularDamping = 0.5f;
-            hullBody.CollisionLayer = 1;
+            hullBody.CollisionLayer = CollisionLayer.Vehicle;
 
             InitWheel("FrontLeft", new Vector3(-0.6f, -0.4f, 0.3f), out frontLeft, out frontLeftId);
             InitWheel("FrontRight", new Vector3(0.6f, -0.4f, 0.3f), out frontRight, out frontRightId);
@@ -172,7 +172,7 @@ namespace TrainJam2016
             wheelBody.Mass = 1.0f;
             wheelBody.LinearDamping = 0.2f; // Some air resistance
             wheelBody.AngularDamping = 0.75f; // Could also use rolling friction
-            wheelBody.CollisionLayer = 1;
+            wheelBody.CollisionLayer = CollisionLayer.Vehicle;
             wheelConstraint.ConstraintType = ConstraintType.Hinge;
             wheelConstraint.OtherBody = GetComponent<RigidBody>(); // Connect to the hull body
             wheelConstraint.SetWorldPosition(wheelNode.Position); // Set constraint's both ends at wheel's location

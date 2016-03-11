@@ -2,6 +2,7 @@
 using Urho;
 using Urho.Physics;
 using Urho.Resources;
+using Urho.Shapes;
 
 namespace TrainJam2016
 {
@@ -223,13 +224,19 @@ namespace TrainJam2016
             terrain.Occluder = true;
 
             RigidBody body = terrainNode.CreateComponent<RigidBody>();
-            body.CollisionLayer = 2; // Use layer bitmask 2 for static geometry
+            body.CollisionLayer = CollisionLayer.Static;
             CollisionShape shape = terrainNode.CreateComponent<CollisionShape>();
             shape.SetTerrain(0);
 
+            SpawnObstacles(cache, terrain);
+            SpawnPickups(cache, terrain);
+        }
+
+        void SpawnObstacles(ResourceCache cache, Terrain terrain)
+        {
             // Create 1000 mushrooms in the terrain. Always face outward along the terrain normal
-            const uint numMushrooms = 1000;
-            for (uint i = 0; i < numMushrooms; ++i)
+            const uint count = 1000;
+            for (uint i = 0; i < count; ++i)
             {
                 Node objectNode = scene.CreateChild("Mushroom");
                 Vector3 position = new Vector3(NextRandom(2000.0f) - 1000.0f, 0.0f, NextRandom(2000.0f) - 1000.0f);
@@ -243,9 +250,33 @@ namespace TrainJam2016
                 sm.SetMaterial(cache.GetMaterial("Materials/Mushroom.xml"));
                 sm.CastShadows = true;
 
-                body = objectNode.CreateComponent<RigidBody>();
-                body.CollisionLayer = 2;
-                shape = objectNode.CreateComponent<CollisionShape>();
+                var body = objectNode.CreateComponent<RigidBody>();
+                body.CollisionLayer = CollisionLayer.Static;
+                var shape = objectNode.CreateComponent<CollisionShape>();
+                shape.SetTriangleMesh(sm.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
+            }
+        }
+
+        void SpawnPickups (ResourceCache cache, Terrain terrain)
+        {
+            const uint count = 1000;
+            for (uint i = 0; i < count; ++i)
+            {
+                Node objectNode = scene.CreateChild("Pickup");
+                Vector3 position = new Vector3(NextRandom(2000.0f) - 1000.0f, 0.0f, NextRandom(2000.0f) - 1000.0f);
+                position.Y = terrain.GetHeight(position) + 1.8f;
+                objectNode.Position = (position);
+                // Create a rotation quaternion from up vector to terrain normal
+                objectNode.Rotation = Quaternion.FromRotationTo(Vector3.UnitY, terrain.GetNormal(position));
+                objectNode.SetScale(3.0f);
+
+                StaticModel sm = objectNode.CreateComponent<Sphere>();
+                sm.CastShadows = false;
+
+                var body = objectNode.CreateComponent<RigidBody>();
+                body.CollisionLayer = CollisionLayer.Pickups;
+                body.Trigger = true;
+                var shape = objectNode.CreateComponent<CollisionShape>();
                 shape.SetTriangleMesh(sm.Model, 0, Vector3.One, Vector3.Zero, Quaternion.Identity);
             }
         }
@@ -306,4 +337,11 @@ namespace TrainJam2016
             debugHud.DefaultStyle = xml;
         }
    }
+
+    class CollisionLayer
+    {
+        public static uint Vehicle = 1;
+        public static uint Static = 1 << 1;
+        public static uint Pickups = 1 << 2;
+    }
 }
