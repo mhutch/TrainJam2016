@@ -182,7 +182,7 @@ namespace TrainJam2016
 
             // Create scene subsystem components
             scene.CreateComponent<Octree>();
-            scene.CreateComponent<PhysicsWorld>();
+            var physicsWorld = scene.CreateComponent<PhysicsWorld>();
 
             // Create camera and define viewport. We will be doing load / save, so it's convenient to create the camera outside the scene,
             // so that it won't be destroyed and recreated, and we don't have to redefine the viewport on load
@@ -230,6 +230,28 @@ namespace TrainJam2016
 
             SpawnObstacles(cache, terrain);
             SpawnPickups(cache, terrain);
+
+            physicsWorld.SubscribeToPhysicsCollision(args =>
+            {
+                Node pickup = GetCollisionNode(args, "Pickup");
+                if (pickup != null)
+                {
+                    pickup.Remove();
+                }
+            });
+        }
+
+        static Node GetCollisionNode (PhysicsCollisionEventArgs args, string name)
+        {
+            Node pickup = args.BodyA.Node;
+            if (pickup.Name == name)
+                return pickup;
+
+            pickup = args.BodyB.Node;
+            if (pickup.Name == name)
+                return pickup;
+
+            return null;
         }
 
         void SpawnObstacles(ResourceCache cache, Terrain terrain)
