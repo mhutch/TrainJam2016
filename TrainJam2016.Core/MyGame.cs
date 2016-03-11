@@ -233,23 +233,34 @@ namespace TrainJam2016
 
             physicsWorld.SubscribeToPhysicsCollision(args =>
             {
-                Node pickup = GetCollisionNode(args, "Pickup");
+                RigidBody pickup = GetCollisionNode(args, "Pickup");
                 if (pickup != null)
                 {
-                    pickup.Remove();
+                    pickup.Enabled = false;
+                    ExpandAndDisappear(pickup.Node);
                 }
             });
         }
 
-        static Node GetCollisionNode (PhysicsCollisionEventArgs args, string name)
+        async void ExpandAndDisappear(Node node)
         {
-            Node pickup = args.BodyA.Node;
-            if (pickup.Name == name)
-                return pickup;
+            const float duration = 0.2f;
+            await node.RunActionsAsync(new Urho.Actions.Parallel (
+                new Urho.Actions.ScaleBy(duration, 1.5f),
+                new Urho.Actions.FadeOut (duration)
+            ));
+            node.Remove();
+        }
 
-            pickup = args.BodyB.Node;
-            if (pickup.Name == name)
-                return pickup;
+        static RigidBody GetCollisionNode (PhysicsCollisionEventArgs args, string name)
+        {
+            RigidBody body = args.BodyA;
+            if (body.Node.Name == name)
+                return body;
+
+            body = args.BodyB;
+            if (body.Node.Name == name)
+                return body;
 
             return null;
         }
