@@ -236,7 +236,7 @@ namespace TrainJam2016
             terrainNode.Position = (Vector3.Zero);
             terrain = terrainNode.CreateComponent<Terrain>();
             terrain.PatchSize = 64;
-            terrain.Spacing = new Vector3(32.0f, 0.2f, 32.0f); // Spacing between vertices and vertical resolution of the height map
+            terrain.Spacing = new Vector3(32.0f, 0.15f, 32.0f); // Spacing between vertices and vertical resolution of the height map
             terrain.Smoothing = false;
             terrain.SetHeightMap(cache.GetImage(Assets.Textures.HeightMap));
             terrain.Material = cache.GetMaterial(Assets.Materials.Terrain);
@@ -285,14 +285,14 @@ namespace TrainJam2016
             var cameraRay = new Ray(cameraRayFrom, cameraRayDirection);
             scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, CollisionLayer.Block);
 
-            pos.Y += 2f;
+            pos.Y += 3f;
             if (result.Body != null)
             {
                 pos.Y += cameraRayLength - result.Distance;
             }
 
             Node node = scene.CreateChild("StackingBlock");
-            node.Scale = new Vector3(3f, 1f, 5f);
+            node.Scale = new Vector3(3f, 1f, 3f);
             node.Position = pos;
             node.Rotation = vehicle.Node.Rotation;
 
@@ -302,7 +302,7 @@ namespace TrainJam2016
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;
             body.Mass = 5f;
-            body.Friction = 2f;
+            body.Friction = 5f;
             body.Restitution = 0.1f;
             body.LinearDamping = vehicle.hullBody.LinearDamping;
             body.SetLinearVelocity (vehicle.hullBody.LinearVelocity);

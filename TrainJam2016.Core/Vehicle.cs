@@ -38,8 +38,8 @@ namespace TrainJam2016
         public const int CtrlRight = 8;
 
         public const float YawSensitivity = 0.1f;
-        public const float EnginePower = 10.0f;
-        public const float DownForce = 10.0f;
+        public const float EnginePower = 20.0f;
+        public const float DownForce = 20.0f;
         public const float MaxWheelAngle = 22.5f;
 
         // Movement controls.
@@ -155,7 +155,7 @@ namespace TrainJam2016
             wheelNode = Scene.CreateChild(name);
             wheelNode.Position = Node.LocalToWorld(offset);
             wheelNode.Rotation = Node.Rotation * (offset.X >= 0.0 ? new Quaternion(0.0f, 0.0f, -90.0f) : new Quaternion(0.0f, 0.0f, 90.0f));
-            wheelNode.Scale = new Vector3(0.8f, 0.5f, 0.8f);
+            wheelNode.Scale = new Vector3(1.2f, 0.5f, 1.2f);
             // Remember the ID for serialization
             wheelNodeId = wheelNode.ID;
 
