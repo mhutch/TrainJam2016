@@ -53,9 +53,13 @@ namespace TrainJam2016
                 case Key.F2:
                     debugHud.ToggleAll();
                     return;
+                case Key.C:
+                    cameraSnapping = !cameraSnapping;
+                    return;
             }
         }
 
+        bool cameraSnapping = true;
         const float cameraResetTimeout = 0.2f;
         const float cameraSnapRate = 2f;
 
@@ -70,7 +74,7 @@ namespace TrainJam2016
                 Quaternion vehicleRotation = vehicleNode.Rotation;
 
                 timeSinceLastMouse += args.TimeStep;
-                if (timeSinceLastMouse > cameraResetTimeout)
+                if (cameraSnapping && timeSinceLastMouse > cameraResetTimeout)
                 {
                     var snap = args.TimeStep * cameraSnapRate;
                     vehicle.Controls.Yaw -= vehicle.Controls.Yaw * Math.Min (1f, snap);
