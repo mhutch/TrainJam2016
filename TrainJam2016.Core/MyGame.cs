@@ -17,6 +17,7 @@ namespace TrainJam2016
 
         Vehicle vehicle;
         Scene scene;
+        Terrain terrain;
 
         public Node CameraNode { get; private set; }
 
@@ -164,7 +165,10 @@ namespace TrainJam2016
         void CreateVehicle()
         {
             Node vehicleNode = scene.CreateChild("Vehicle");
-            vehicleNode.Position = (new Vector3(0.0f, 5.0f, 0.0f));
+
+            var position = new Vector3(0.0f, 5.0f, 0.0f);
+            position.Y = terrain.GetHeight(position) + 5f;
+            vehicleNode.Position = position;
 
             // Create the vehicle logic component
             vehicle = new Vehicle();
@@ -205,18 +209,28 @@ namespace TrainJam2016
             lightNode.SetDirection(new Vector3(0.3f, -0.5f, 0.425f));
             Light light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
+            light.Color = Color.Cyan;
             light.CastShadows = true;
             light.ShadowBias = new BiasParameters(0.00025f, 0.5f);
             light.ShadowCascade = new CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
             light.SpecularIntensity = 0.5f;
 
+            lightNode = scene.CreateChild("DirectionalLight");
+            lightNode.SetDirection(new Vector3(+0.3f, +0.5f, 0.425f));
+            light = lightNode.CreateComponent<Light>();
+            light.LightType = LightType.Directional;
+            light.Color = Color.Magenta;
+            light.CastShadows = false;
+            light.ShadowBias = new BiasParameters(0.00025f, 0.5f);
+            light.SpecularIntensity = 0.5f;
+
             // Create heightmap terrain with collision
             Node terrainNode = scene.CreateChild("Terrain");
             terrainNode.Position = (Vector3.Zero);
-            Terrain terrain = terrainNode.CreateComponent<Terrain>();
+            terrain = terrainNode.CreateComponent<Terrain>();
             terrain.PatchSize = 64;
-            terrain.Spacing = new Vector3(2.0f, 0.1f, 2.0f); // Spacing between vertices and vertical resolution of the height map
-            terrain.Smoothing = true;
+            terrain.Spacing = new Vector3(32.0f, 0.2f, 32.0f); // Spacing between vertices and vertical resolution of the height map
+            terrain.Smoothing = false;
             terrain.SetHeightMap(cache.GetImage("Textures/HeightMap.png"));
             terrain.Material = cache.GetMaterial("Materials/Terrain.xml");
             // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
