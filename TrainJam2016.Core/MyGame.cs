@@ -30,6 +30,7 @@ using Urho.Shapes;
 using Urho.Gui;
 using System.Threading.Tasks;
 using Urho.Audio;
+using System.Collections.Generic;
 
 namespace TrainJam2016
 {
@@ -45,10 +46,16 @@ namespace TrainJam2016
         Scene scene;
         Terrain terrain;
 
+        ListBasedUpdateSynchronizationContext syncContext;
+
         public Node CameraNode { get; private set; }
 
         public MyGame() : base(new ApplicationOptions("Data") { })
         {
+            syncContext = new ListBasedUpdateSynchronizationContext(
+                new List<Action>()
+            );
+            System.Threading.SynchronizationContext.SetSynchronizationContext(syncContext);
         }
 
         protected override void Start()
@@ -176,6 +183,8 @@ namespace TrainJam2016
 
                 CameraNode.Position = cameraTargetPos;
                 CameraNode.Rotation = dir;
+
+                syncContext.PumpActions();
             });
 
             scene.GetComponent<PhysicsWorld>().SubscribeToPhysicsPreStep(args => vehicle?.FixedUpdate(args.TimeStep));
@@ -391,14 +400,13 @@ namespace TrainJam2016
             SpawnStackingBlock();
 
             float duration = 0.5f, scale = 1.5f;
-            var animateAway = node.RunActionsAsync(
+            await node.RunActionsAsync(
                 new Urho.Actions.Parallel(
                     new Urho.Actions.ScaleBy(duration, scale),
                     new Urho.Actions.FadeOut(duration)
-                )
+                ),
+                new Urho.Actions.DelayTime (sound.Length)
             );
-
-            await Task.WhenAll(animateAway, Task.Delay((int)(sound.Length * 1000)));
             node.Remove();
         }
 
@@ -415,11 +423,10 @@ namespace TrainJam2016
             source.Gain = 0.5f;
 
             float duration = 0.5f, scale = 1.5f;
-            var animateAway = node.RunActionsAsync(
-                  new Urho.Actions.ScaleBy(duration, scale)
+            await node.RunActionsAsync(
+                  new Urho.Actions.ScaleBy(duration, scale),
+                  new Urho.Actions.DelayTime(sound.Length)
             );
-
-            await Task.WhenAll(animateAway, Task.Delay((int)(sound.Length * 1000)));
             node.Remove();
         }
 
