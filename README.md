@@ -9,29 +9,25 @@ Maximum Capacity
 ### Concept
 
 * Vehicle driving game
-* Terrain with obstacles
-* Pickups that stack up on top of the vehicle and make it more diffcult to drive
-* Aim is to reach maximum capacity
+* Pickups that stack up on top of the vehicle but get more and more unvieldy
+* Aim is to find out what the maximum capacity is
 
 ## TODO
 
 ### Plan
 
-* Terrain art
+* Terrain map
+* Terrain texture
+* Vehicle texture
 * Prettier pickups
-* Prettier vehicle
-* Better obstacles
+* Blocks material - colors?
+* Better lighting
 * Sound
 * Music
-* Title screen
-* Credits
+* Better encouragement messages
+* Splash / credits
 
 ### Unknown
 
 * Name
-* Theming
-* Art style
-* Win conditions
-* Obstacle types
-* Scoring?
-
+* Color scheme
