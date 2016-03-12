@@ -349,9 +349,9 @@ namespace TrainJam2016
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;
             body.Mass = 4f;
-            body.Friction = 100f;
-            body.Restitution = 0.1f;
-            body.LinearDamping = vehicle.hullBody.LinearDamping;
+            body.Friction = 1f;
+            body.RollingFriction = 1f;
+            body.Restitution = 0.01f;
             body.SetLinearVelocity(vehicle.hullBody.LinearVelocity);
 
             var shape = node.CreateComponent<CollisionShape>();
