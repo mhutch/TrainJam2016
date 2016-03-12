@@ -520,31 +520,6 @@ namespace TrainJam2016
             tcs.TrySetResult(true);
         }
 
-        void SpawnObstacles(ResourceCache cache, Terrain terrain)
-        {
-            // Create 1000 mushrooms in the terrain. Always face outward along the terrain normal
-            const uint count = 1000;
-            for (uint i = 0; i < count; ++i)
-            {
-                Node objectNode = scene.CreateChild("Mushroom");
-                Vector3 position = new Vector3(NextRandom(worldSize) - worldSize / 2f, 0.0f, NextRandom(worldSize) - worldSize / 2f);
-                position.Y = terrain.GetHeight(position) - 0.1f;
-                objectNode.Position = (position);
-                // Create a rotation quaternion from up vector to terrain normal
-                objectNode.Rotation = Quaternion.FromRotationTo(Vector3.UnitY, terrain.GetNormal(position));
-                objectNode.SetScale(3.0f);
-                StaticModel sm = objectNode.CreateComponent<StaticModel>();
-                sm.Model = (cache.GetModel(Assets.Models.Mushroom));
-                sm.SetMaterial(cache.GetMaterial(Assets.Materials.Mushroom));
-                sm.CastShadows = true;
-
-                var body = objectNode.CreateComponent<RigidBody>();
-                body.CollisionLayer = CollisionLayer.Static;
-                var shape = objectNode.CreateComponent<CollisionShape>();
-                shape.SetSphere (1.2f, Vector3.Zero, Quaternion.Identity);
-            }
-        }
-
         void SpawnPickups (ResourceCache cache, Terrain terrain)
         {
             const uint count = 100;
