@@ -430,7 +430,7 @@ namespace Heighten
             node.Remove();
         }
 
-        const float minBlockSpawnDelay = 1f;
+        const float minBlockSpawnDelay = 0.1f;
         //hopefully precision won't be an issue
         float lastBlockSpawnTime;
 
