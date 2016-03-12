@@ -117,7 +117,7 @@ namespace Heighten
             RunMessages("Stack as many blocks as you can!");
         }
 
-        const float cameraDistance = 10.0f;
+        const float cameraDistance = 15.0f;
         const float cameraDegrees = 10.0f;
 
         bool cameraSnapping = true;
