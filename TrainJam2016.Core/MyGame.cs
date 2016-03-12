@@ -36,25 +36,26 @@ namespace TrainJam2016
 
             CreateScene();
 
-            CreateVehicle();
-
             SubscribeToEvents();
 
             CreateConsoleAndDebugHud();
 
             CreateUI();
 
-            RunMessages("Stack as many blocks as you can!");
+            Restart();
         }
 
-        bool hadFirstInput = false;
+        bool started = false;
 
         void HandleKeyDown(KeyDownEventArgs e)
         {
             switch (e.Key)
             {
                 case Key.Esc:
-                    Engine.Exit();
+                    if (!started)
+                        Engine.Exit();
+                    else
+                        Restart();
                     return;
                 case Key.F1:
                     console.Toggle();
@@ -66,6 +67,22 @@ namespace TrainJam2016
                     cameraSnapping = !cameraSnapping;
                     return;
             }
+        }
+
+        void Restart()
+        {
+            started = false;
+
+            if (vehicle != null)
+            {
+                vehicle.Destroy();
+                scene.RemoveComponents(new StringHash("Pickup"));
+                scene.RemoveComponents(new StringHash("StackingBlock"));
+            }
+
+            CreateVehicle();
+            SpawnPickups(ResourceCache, terrain);
+            RunMessages("Stack as many blocks as you can!");
         }
 
         const float cameraDistance = 10.0f;
@@ -159,9 +176,9 @@ namespace TrainJam2016
                     vehicle.Controls.Set(Vehicle.CtrlLeft, left);
                     vehicle.Controls.Set(Vehicle.CtrlRight, right);
 
-                    if (!hadFirstInput && (forward || back || left || right))
+                    if (!started && (forward || back || left || right))
                     {
-                        hadFirstInput = true;
+                        started = true;
                         RunMessages("");
                     }
 
@@ -285,7 +302,6 @@ namespace TrainJam2016
             shape.SetTerrain(0);
 
             SpawnObstacles(cache, terrain);
-            SpawnPickups(cache, terrain);
 
             physicsWorld.SubscribeToPhysicsCollision(HandlePhysicsCollision);
         }

@@ -68,6 +68,15 @@ namespace TrainJam2016
         uint rearLeftId;
         uint rearRightId;
 
+        public void Destroy()
+        {
+            frontLeftBody.Node.Remove();
+            frontRightBody.Node.Remove();
+            rearLeftBody.Node.Remove();
+            rearRightBody.Node.Remove();
+            Node.Remove();
+        }
+
         /// Current left/right steering amount (-1 to 1.)
         float steering;
 
