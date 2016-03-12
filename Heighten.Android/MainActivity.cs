@@ -5,7 +5,7 @@ using Android.Widget;
 using Android.OS;
 using Urho.Droid;
 
-namespace TrainJam2016.Android
+namespace Heighten.Android
 {
     [Activity(Label = MyGame.GameName, MainLauncher = true,
         Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar.Fullscreen",

@@ -26,7 +26,7 @@ using System;
 using Urho;
 using Urho.Physics;
 
-namespace TrainJam2016
+namespace Heighten
 {
     /// <summary>
     /// Vehicle component, responsible for physical movement according to controls.

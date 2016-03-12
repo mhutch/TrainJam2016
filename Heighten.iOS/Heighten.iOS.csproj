@@ -6,9 +6,9 @@
     <ProjectGuid>{767A01A0-17CF-4562-BE1F-C57BE89DC2D8}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TrainJam2016</RootNamespace>
+    <RootNamespace>Heighten</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>TrainJam2016</AssemblyName>
+    <AssemblyName>Heighten</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -24,6 +24,7 @@
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <AssemblyName>Heighten</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -34,6 +35,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchArch>i386</MtouchArch>
     <ConsolePause>false</ConsolePause>
+    <AssemblyName>Heighten</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,15 +151,15 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrainJam2016.Core\TrainJam2016.Core.csproj">
-      <Name>TrainJam2016.Core</Name>
+    <ProjectReference Include="..\Heighten.Core\Heighten.Core.csproj">
+      <Name>Heighten.Core</Name>
       <Project>{47BBBF31-9620-4C61-81BA-EAA693F72A78}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
-  <Import Project="..\Assets\Assets.projitems" Label="Shared" Condition="Exists('..\Assets\Assets.projitems')" />
+  <Import Project="..\Assets\Heighten.Assets.projitems" Label="Shared" Condition="Exists('..\Assets\Heighten.Assets.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\UrhoSharp.1.0.360\build\Xamarin.iOS10\UrhoSharp.targets" Condition="Exists('..\packages\UrhoSharp.1.0.360\build\Xamarin.iOS10\UrhoSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

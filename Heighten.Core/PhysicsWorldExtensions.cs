@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 using Urho;
 using Urho.Physics;
 
-namespace TrainJam2016
+namespace Heighten
 {
     static class PhysicsWorldExtensions
     {

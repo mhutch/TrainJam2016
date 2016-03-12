@@ -4,7 +4,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 
-namespace TrainJam2016
+namespace Heighten
 {
 
 public partial class Assets

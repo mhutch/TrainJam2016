@@ -27,7 +27,7 @@ using System;
 using Urho.Audio;
 using Urho;
 
-namespace TrainJam2016
+namespace Heighten
 {
     public partial class Assets
     {

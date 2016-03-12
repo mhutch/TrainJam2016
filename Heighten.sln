@@ -1,20 +1,20 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.Core", "TrainJam2016.Core\TrainJam2016.Core.csproj", "{47BBBF31-9620-4C61-81BA-EAA693F72A78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heighten.Core", "Heighten.Core\Heighten.Core.csproj", "{47BBBF31-9620-4C61-81BA-EAA693F72A78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.Android", "TrainJam2016.Android\TrainJam2016.Android.csproj", "{FB39AA55-3132-4F96-93B1-6DA799D45646}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heighten.Android", "Heighten.Android\Heighten.Android.csproj", "{FB39AA55-3132-4F96-93B1-6DA799D45646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.iOS", "TrainJam2016.iOS\TrainJam2016.iOS.csproj", "{767A01A0-17CF-4562-BE1F-C57BE89DC2D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heighten.iOS", "Heighten.iOS\Heighten.iOS.csproj", "{767A01A0-17CF-4562-BE1F-C57BE89DC2D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJam2016.Desktop", "TrainJam2016.Desktop\TrainJam2016.Desktop.csproj", "{ECC350C2-88BF-4905-B4CB-8FAEC47DFF8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heighten.Desktop", "Heighten.Desktop\Heighten.Desktop.csproj", "{ECC350C2-88BF-4905-B4CB-8FAEC47DFF8C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{80ACD43C-E1BF-405F-952E-00055F73DB37}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Assets", "Assets\Assets.shproj", "{841E4604-187A-4449-9981-73689779A566}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Heighten.Assets", "Assets\Heighten.Assets.shproj", "{841E4604-187A-4449-9981-73689779A566}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

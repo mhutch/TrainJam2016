@@ -23,21 +23,21 @@
 //
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Urho;
+using Urho.Audio;
+using Urho.Gui;
 using Urho.Physics;
 using Urho.Resources;
 using Urho.Shapes;
-using Urho.Gui;
-using System.Threading.Tasks;
-using Urho.Audio;
-using System.Collections.Generic;
 
-namespace TrainJam2016
+namespace Heighten
 {
     public class MyGame : Application
     {
-        public const string GameID = "TrainJam2016";
-        public const string GameName = "Train Jam 2016";
+        public const string GameID = "Heighten";
+        public const string GameName = "Heighten";
         public const string GameCopyright = "Copyright © 2016 Mikayla Hutchinson";
 
         const float TouchSensitivity = 2;

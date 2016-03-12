@@ -1,4 +1,4 @@
-﻿namespace TrainJam2016.Desktop
+﻿namespace Heighten.Desktop
 {
     class Program
     {

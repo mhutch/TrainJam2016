@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>TrainJam2016</string>
+	<string>Heighten</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.mjhutchinson.TrainJam2016</string>
+	<string>com.mjhutchinson.Heighten</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -36,6 +36,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>TrainJam2016</string>
+	<string>Heighten</string>
 </dict>
 </plist>

@@ -24,14 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using Urho;
-using Urho.Physics;
-using Urho.Resources;
-using Urho.Shapes;
-using System.Collections.Generic;
 
-namespace TrainJam2016
+namespace Heighten
 {
 
     class CollisionLayer

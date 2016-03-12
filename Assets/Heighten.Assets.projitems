@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{841E4604-187A-4449-9981-73689779A566}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Heighten</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Fonts\Font.ttf">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Box.mdl">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Sphere.mdl">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Mushroom.xml">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Terrain.xml">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail1.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail2.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail3.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainWeights.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\HeightMap.png">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Mushroom.mdl">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Mushroom.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Stone.xml">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneDiffuse.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneNormal.dds">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\DefaultStyle.xml">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\UI.png">
+    </UrhoAsset>
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick_Samples.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block1.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block2.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block1.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block5.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block4.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block3.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block2.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block3.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block4.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block5.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Terrain2.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Terrain2.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\VehicleHull.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\VehicleWheel.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleWheel.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleHull.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel2.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel3.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Collect.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep1.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep2.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep3.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep4.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep5.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep6.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep7.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Assets.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Assets.cs">
+      <DependentUpon>Assets.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Data\Sounds\" />
+  </ItemGroup>
+  <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
+    <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
+      <Output TaskParameter="OutputItems" ItemName="_UrhoAssetWithLink" />
+    </AssignLinkMetadata> 
+    <ItemGroup>
+	<AndroidAsset Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='MonoDroid'" />
+	<BundleResource Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='Xamarin.iOS'" />
+	<None Include="@(_UrhoAssetWithLink)" Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+    </ItemGroup>
+  </Target> 
+</Project>
