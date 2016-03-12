@@ -16,6 +16,9 @@ public static class Assets
 			public const string Mushroom = "Materials/Mushroom.xml";
 			public const string Stone = "Materials/Stone.xml";
 			public const string Terrain = "Materials/Terrain.xml";
+			public const string Terrain2 = "Materials/Terrain2.xml";
+			public const string VehicleHull = "Materials/VehicleHull.xml";
+			public const string VehicleWheel = "Materials/VehicleWheel.xml";
 	}
 
 	public static class Models
@@ -40,11 +43,14 @@ public static class Assets
 			public const string Mushroom = "Textures/Mushroom.dds";
 			public const string StoneDiffuse = "Textures/StoneDiffuse.dds";
 			public const string StoneNormal = "Textures/StoneNormal.dds";
+			public const string Terrain2 = "Textures/Terrain2.png";
 			public const string TerrainDetail1 = "Textures/TerrainDetail1.dds";
 			public const string TerrainDetail2 = "Textures/TerrainDetail2.dds";
 			public const string TerrainDetail3 = "Textures/TerrainDetail3.dds";
 			public const string TerrainWeights = "Textures/TerrainWeights.dds";
 			public const string UI = "Textures/UI.png";
+			public const string VehicleHull = "Textures/VehicleHull.png";
+			public const string VehicleWheel = "Textures/VehicleWheel.png";
 	}
 
 	public static class UI

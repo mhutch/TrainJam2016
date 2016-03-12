@@ -8,7 +8,7 @@ public static class Assets
 {
 <#
 //TODO: find a way to check they're actually in the project
-var dataDir = Path.GetFullPath (Host.ResolvePath (Path.Combine ("..", "Assets", "Data")));
+var dataDir = Path.GetFullPath (Host.ResolvePath (Path.Combine ("Data")));
 var directories = Directory.GetDirectories(dataDir);
 foreach (var d in directories) {
 	var dirName = Path.GetFileName(d);
@@ -19,8 +19,8 @@ foreach (var d in directories) {
 		var files = Directory.GetFiles(d);
 		foreach (var f in files) {
 			var fileName = Path.GetFileNameWithoutExtension(f);
-			var ex = Path.GetExtension(f);
-			if (ex == ".psd")
+			var ext = Path.GetExtension(f);
+			if (ext == ".psd" || ext == ".svg")
 				continue;
 			if (string.IsNullOrEmpty (fileName))
 				continue;
