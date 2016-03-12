@@ -20,8 +20,6 @@ Maximum Capacity
 * Terrain texture
 * Vehicle texture
 * Prettier pickups
-* Blocks material - colors?
-* Better lighting
 * Sound
 * Music
 * Better encouragement messages

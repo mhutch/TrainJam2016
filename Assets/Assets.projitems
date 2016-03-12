@@ -46,7 +46,15 @@
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick_Samples.xml" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick.xml" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block1.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block2.xml" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block1.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block5.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block4.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block3.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block2.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block3.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block4.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block5.png" />
   </ItemGroup>
   <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 

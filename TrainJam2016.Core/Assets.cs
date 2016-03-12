@@ -9,6 +9,10 @@ public static class Assets
 	public static class Materials
 	{
 			public const string Block1 = "Materials/Block1.xml";
+			public const string Block2 = "Materials/Block2.xml";
+			public const string Block3 = "Materials/Block3.xml";
+			public const string Block4 = "Materials/Block4.xml";
+			public const string Block5 = "Materials/Block5.xml";
 			public const string Mushroom = "Materials/Mushroom.xml";
 			public const string Stone = "Materials/Stone.xml";
 			public const string Terrain = "Materials/Terrain.xml";
@@ -28,6 +32,10 @@ public static class Assets
 	public static class Textures
 	{
 			public const string Block1 = "Textures/Block1.png";
+			public const string Block2 = "Textures/Block2.png";
+			public const string Block3 = "Textures/Block3.png";
+			public const string Block4 = "Textures/Block4.png";
+			public const string Block5 = "Textures/Block5.png";
 			public const string HeightMap = "Textures/HeightMap.png";
 			public const string Mushroom = "Textures/Mushroom.dds";
 			public const string StoneDiffuse = "Textures/StoneDiffuse.dds";

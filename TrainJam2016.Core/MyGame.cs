@@ -257,7 +257,7 @@ namespace TrainJam2016
             // Create static scene content. First create a zone for ambient lighting and fog control
             Node zoneNode = scene.CreateChild("Zone");
             Zone zone = zoneNode.CreateComponent<Zone>();
-            zone.AmbientColor = new Color(0.15f, 0.15f, 0.15f);
+            zone.AmbientColor = new Color(0.30f, 0.30f, 0.30f);
             zone.FogColor = new Color(0.5f, 0.5f, 0.7f);
             zone.FogStart = 300.0f;
             zone.FogEnd = 500.0f;
@@ -268,7 +268,7 @@ namespace TrainJam2016
             lightNode.SetDirection(new Vector3(0.3f, -0.5f, 0.425f));
             Light light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
-            light.Color = Color.Cyan;
+            light.Color = Color.White;
             light.CastShadows = true;
             light.ShadowBias = new BiasParameters(0.00025f, 0.5f);
             light.ShadowCascade = new CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
@@ -278,7 +278,7 @@ namespace TrainJam2016
             lightNode.SetDirection(new Vector3(-0.3f, -0.5f, -0.425f));
             light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
-            light.Color = Color.Magenta;
+            light.Color = Color.White;
             light.CastShadows = false;
             light.ShadowBias = new BiasParameters(0.00025f, 0.5f);
             light.SpecularIntensity = 0.5f;
@@ -346,8 +346,28 @@ namespace TrainJam2016
             node.Remove();
         }
 
+        int blockMaterialIndex;
+        Material[] blockMaterials;
+
+        Material GetNextBlockMaterial ()
+        {
+            if (blockMaterials == null)
+            {
+                blockMaterials = new Material[] {
+                    ResourceCache.GetMaterial(Assets.Materials.Block1),
+                     ResourceCache.GetMaterial(Assets.Materials.Block2),
+                     ResourceCache.GetMaterial(Assets.Materials.Block3),
+                     ResourceCache.GetMaterial(Assets.Materials.Block4),
+                     ResourceCache.GetMaterial(Assets.Materials.Block5)
+                };
+            }
+            blockMaterialIndex = (blockMaterialIndex + 1) % blockMaterials.Length;
+            return blockMaterials[blockMaterialIndex];
+        }
+
         const float minBlockSpawnDelay = 1f;
         float lastBlockSpawnTime;
+
 
         void SpawnStackingBlock()
         {
@@ -367,8 +387,7 @@ namespace TrainJam2016
 
             var box = node.CreateComponent<Box>();
             box.CastShadows = true;
-            var mat = new Material();
-            box.SetMaterial(ResourceCache.GetMaterial(Assets.Materials.Block1));
+            box.SetMaterial(GetNextBlockMaterial ());
 
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;
