@@ -55,6 +55,10 @@
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block3.png" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block4.png" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block5.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\VehicleHull.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\VehicleWheel.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleWheel.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleHull.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets.tt">
