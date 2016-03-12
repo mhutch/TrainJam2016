@@ -224,7 +224,7 @@ namespace TrainJam2016
             light.SpecularIntensity = 0.5f;
 
             lightNode = scene.CreateChild("DirectionalLight");
-            lightNode.SetDirection(new Vector3(+0.3f, +0.5f, 0.425f));
+            lightNode.SetDirection(new Vector3(-0.3f, -0.5f, 0.425f));
             light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
             light.Color = Color.Magenta;
@@ -266,7 +266,7 @@ namespace TrainJam2016
             {
                 var node = (layerA == CollisionLayer.Pickup) ? args.NodeA : args.NodeB;
                 node.GetComponent<RigidBody>().Enabled = false;
-                ScaleAndDisappear(node, 0.2f, 1.5f);
+                ScaleAndDisappear(node, 0.5f, 1.5f);
                 SpawnStackingBlock();
                 return;
             }
@@ -274,7 +274,7 @@ namespace TrainJam2016
             if (layers == (CollisionLayer.Block | CollisionLayer.Terrain))
             {
                 var node = (layerA == CollisionLayer.Block) ? args.NodeA : args.NodeB;
-                node.GetComponent<RigidBody>().Enabled = false;
+                node.GetComponent<RigidBody>().CollisionMask ^= CollisionLayer.Terrain;
                 ScaleAndDisappear(node, 0.5f, 0.2f);
                 return;
             }
@@ -314,8 +314,8 @@ namespace TrainJam2016
 
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;
-            body.Mass = 5f;
-            body.Friction = 5f;
+            body.Mass = 4f;
+            body.Friction = 100f;
             body.Restitution = 0.1f;
             body.LinearDamping = vehicle.hullBody.LinearDamping;
             body.SetLinearVelocity(vehicle.hullBody.LinearVelocity);
