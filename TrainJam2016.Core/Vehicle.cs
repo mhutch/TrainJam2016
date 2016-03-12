@@ -63,12 +63,6 @@ namespace TrainJam2016
         RigidBody rearLeftBody;
         RigidBody rearRightBody;
 
-        // IDs of the wheel scene nodes for serialization.
-        uint frontLeftId;
-        uint frontRightId;
-        uint rearLeftId;
-        uint rearRightId;
-
         public void Destroy()
         {
             frontLeftBody.Node.Remove();
@@ -150,6 +144,7 @@ namespace TrainJam2016
             hullBody.AngularDamping = 0.5f;
             hullBody.CollisionLayer = CollisionLayer.Vehicle;
 
+            uint frontLeftId, frontRightId, rearLeftId, rearRightId;
             InitWheel("FrontLeft", new Vector3(-0.6f, -0.4f, 0.3f), out frontLeft, out frontLeftId);
             InitWheel("FrontRight", new Vector3(0.6f, -0.4f, 0.3f), out frontRight, out frontRightId);
             InitWheel("RearLeft", new Vector3(-0.6f, -0.4f, -0.3f), out rearLeft, out rearLeftId);
