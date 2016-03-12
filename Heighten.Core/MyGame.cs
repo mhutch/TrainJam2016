@@ -270,7 +270,7 @@ namespace Heighten
             vehicle.hullBody.Friction = 1f;
         }
 
-        float worldSize;
+        Vector3 worldSize;
 
         void CreateScene()
         {
@@ -279,10 +279,10 @@ namespace Heighten
             scene = new Scene();
 
             var terrainPatchSize = 16;
-            var terrainSpacing = new Vector3(0.5f, 0.1f, 0.5f);
+            var terrainSpacing = new Vector3(0.3f, 0.1f, 0.3f);
             var heightMap = cache.GetImage(Assets.Textures.HeightMap);
 
-            worldSize = heightMap.Width * terrainSpacing.X;
+            worldSize = new Vector3 (heightMap.Width * terrainSpacing.X, 255 * terrainSpacing.Y, heightMap.Width * terrainSpacing.Z);
             // Create scene subsystem components
 
             scene.CreateComponent<Octree>();
@@ -564,21 +564,34 @@ namespace Heighten
             tcs.TrySetResult(true);
         }
 
-        void SpawnPickups (ResourceCache cache, Terrain terrain)
+        void SpawnPickups (ResourceCache cache)
         {
-            const uint count = 100;
+            const uint count = 50;
             for (uint i = 0; i < count; ++i)
             {
-                Node objectNode = scene.CreateChild("Pickup");
-                Vector3 position = new Vector3(NextRandom(worldSize) - worldSize / 2f, 0.0f, NextRandom(worldSize) - worldSize /2f);
-                position.Y = terrain.GetHeight(position) + 1.8f;
-                objectNode.Position = (position);
-                // Create a rotation quaternion from up vector to terrain normal
-                objectNode.Rotation = Quaternion.FromRotationTo(Vector3.UnitY, terrain.GetNormal(position));
-                objectNode.SetScale(3.0f);
+                Vector3 position = new Vector3(NextRandom(worldSize.X) - worldSize.X / 2f, 0.0f, NextRandom(worldSize.Z) - worldSize.Z /2f);
 
-                StaticModel sm = objectNode.CreateComponent<Sphere>();
+                var terrainHeight = terrain.GetHeight(position);
+                position.Y = terrainHeight + 2.2f;
+
+                //make sure it's not above the wall
+                if (position.Y > worldSize.Y)
+                    continue;
+
+                Node objectNode = scene.CreateChild("Pickup");
+                objectNode.Position = (position);
+
+                //don't place them when the angle is too steep
+                //TODO check not too close to a wall too
+                var terrainNormal = terrain.GetNormal(position);
+                if (terrainNormal.Y < 0.8)
+                    continue;
+
+                objectNode.SetScale(2.0f);
+
+                Sphere sm = objectNode.CreateComponent<Sphere>();
                 sm.CastShadows = false;
+                sm.Color = new Color(1f, 1f, 0.2f, 0.7f);
 
                 var body = objectNode.CreateComponent<RigidBody>();
                 body.CollisionLayer = CollisionLayer.Pickup;
