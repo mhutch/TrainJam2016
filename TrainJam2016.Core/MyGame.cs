@@ -15,7 +15,6 @@ namespace TrainJam2016
         public const string GameCopyright = "Copyright © 2016 Mikayla Hutchinson";
 
         const float TouchSensitivity = 2;
-        const float CameraDistance = 30.0f;
 
         Vehicle vehicle;
         Scene scene;
@@ -69,9 +68,18 @@ namespace TrainJam2016
             }
         }
 
+        const float cameraDistance = 10.0f;
+        const float cameraDegrees = 10.0f;
+
         bool cameraSnapping = true;
         const float cameraResetTimeout = 0.2f;
         const float cameraSnapRate = 2f;
+
+        const float cameraDegreesPerBlock = 3f;
+        const float cameraDistancePerBlock = 3f;
+
+        float cameraBlocksAdjustment;
+        float cameraBlocksAdjustRate = 1f;
 
         void SubscribeToEvents()
         {
@@ -83,12 +91,17 @@ namespace TrainJam2016
                 Node vehicleNode = vehicle.Node;
                 Quaternion vehicleRotation = vehicleNode.Rotation;
 
+                cameraBlocksAdjustment = MathHelper.Lerp (cameraBlocksAdjustment, liveBlocks, cameraBlocksAdjustRate * args.TimeStep);
+
+                float adjustedDegrees = cameraDegrees + cameraBlocksAdjustment * cameraDegreesPerBlock;
+                float adjustedDistance = cameraDistance + cameraBlocksAdjustment * cameraDistancePerBlock;
+
                 timeSinceLastMouse += args.TimeStep;
                 if (cameraSnapping && timeSinceLastMouse > cameraResetTimeout)
                 {
                     var snap = args.TimeStep * cameraSnapRate;
                     vehicle.Controls.Yaw -= vehicle.Controls.Yaw * Math.Min (1f, snap);
-                    vehicle.Controls.Pitch += (20f - vehicle.Controls.Pitch) * snap;// 0.95f;
+                    vehicle.Controls.Pitch += (adjustedDegrees - vehicle.Controls.Pitch) * snap;// 0.95f;
                 }
 
                 // Physics update has completed. Position camera behind vehicle
@@ -102,7 +115,7 @@ namespace TrainJam2016
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitY, vehicle.Controls.Yaw);
                 dir = dir * Quaternion.FromAxisAngle(Vector3.UnitX, vehicle.Controls.Pitch);
 
-                Vector3 cameraTargetPos = vehicleNode.Position - (dir * new Vector3(0.0f, 0.0f, CameraDistance));
+                Vector3 cameraTargetPos = vehicleNode.Position - (dir * new Vector3(0.0f, 0.0f, adjustedDistance));
                 Vector3 cameraStartPos = vehicleNode.Position;
 
                 // Raycast camera against static objects (physics collision mask 2)
