@@ -18,7 +18,6 @@ Maximum Capacity
 
 * Terrain map
 * Terrain texture
-* Vehicle texture
 * Prettier pickups
 * Sound
 * Music
@@ -28,4 +27,13 @@ Maximum Capacity
 ### Unknown
 
 * Name
-* Color scheme
+
+### Credits
+
+* Design and programming: [Mikayla Hutchinson](https://mhut.ch) ([@mjhutchinson](https://twitter.com/mjhutchinson))
+
+### License
+
+**Code:** MIT License.
+
+**Art:** CC-0 (Creative Commons Zero)
