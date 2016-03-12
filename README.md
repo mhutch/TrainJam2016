@@ -15,7 +15,6 @@ Heighten is a TrainJam 2016 Game. The theme is 'Maximum Capacity'.
 ### Plan
 
 * Terrain map
-* Terrain texture
 * Music
 * Splash / credits
 
