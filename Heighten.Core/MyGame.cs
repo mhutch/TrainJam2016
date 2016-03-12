@@ -113,8 +113,8 @@ namespace Heighten
             }
 
             CreateVehicle();
-            SpawnPickups(ResourceCache, terrain);
-            RunMessages("Stack as many blocks as you can!");
+            SpawnPickups(ResourceCache);
+            RunMessages("Heighten!");
         }
 
         const float cameraDistance = 15.0f;
@@ -494,20 +494,57 @@ namespace Heighten
 
             if (liveBlocks == 0)
             {
-                RunMessages("Awwwwww!", "Try again!", "");
+                RunMessages("Awwwww...", "Try again!", "");
                 return;
             }
-            if (liveBlocks == 1 && delta == 1)
+
+            if (delta > 0)
             {
-                RunMessages("Good start!", "");
-                return;
+                if (liveBlocks == 1)
+                {
+                    RunMessages("Good start!", "");
+                    return;
+                }
+
+                if (liveBlocks == 5)
+                {
+                    RunMessages("Halfway there!", "");
+                    return;
+                }
+
+                if (liveBlocks == 9)
+                {
+                    RunMessages("So close!", "");
+                    return;
+                }
+
+                if (liveBlocks == 10)
+                {
+                    RunMessages("Yaaaaaay!", "Congratulations!");
+                    return;
+                }
             }
-            if (liveBlocks == 1 && delta == -1)
+
+            if (delta < 0)
             {
-                RunMessages("Almost back where you started...", "");
-                return;
+                if (liveBlocks == 1)
+                {
+                    RunMessages("Almost back where you started...", "");
+                    return;
+                }
+
+                if (liveBlocks == 3)
+                {
+                    RunMessages("Uh oh...", "");
+                    return;
+                }
+
+                if (liveBlocks == 7)
+                {
+                    RunMessages("Ooops...", "");
+                    return;
+                }
             }
-            RunMessages ($"{liveBlocks} blocks", "");
         }
 
         TaskCompletionSource<bool> nextMessage;
