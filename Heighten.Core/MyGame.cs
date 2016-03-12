@@ -113,7 +113,7 @@ namespace Heighten
             }
 
             CreateVehicle();
-            SpawnPickups(ResourceCache);
+            SpawnPickups();
             RunMessages("Heighten!");
         }
 
@@ -408,6 +408,8 @@ namespace Heighten
                 new Urho.Actions.DelayTime (sound.Length)
             );
             node.Remove();
+
+            SpawnPickupAndFadeIn();
         }
 
         async void BlockLost(Node node)
@@ -567,12 +569,22 @@ namespace Heighten
             tcs.TrySetResult(true);
         }
 
-        void SpawnPickups (ResourceCache cache)
+        void SpawnPickups ()
         {
             const uint count = 50;
             for (uint i = 0; i < count; ++i)
             {
-                Vector3 position = new Vector3(NextRandom(worldSize.X) - worldSize.X / 2f, 0.0f, NextRandom(worldSize.Z) - worldSize.Z /2f);
+                SpawnPickup();
+            }
+        }
+
+        Node SpawnPickup()
+        {
+            //HACK: brute forcing valid locations, bail out after 10 failures
+            //could mean we gradually lose nodes over time
+            for (int attempts = 0; attempts < 10; attempts++)
+            {
+                var position = new Vector3(NextRandom(worldSize.X) - worldSize.X / 2f, 0.0f, NextRandom(worldSize.Z) - worldSize.Z / 2f);
 
                 var terrainHeight = terrain.GetHeight(position);
                 position.Y = terrainHeight + 2.2f;
@@ -581,8 +593,8 @@ namespace Heighten
                 if (position.Y > worldSize.Y)
                     continue;
 
-                Node objectNode = scene.CreateChild("Pickup");
-                objectNode.Position = (position);
+                Node node = scene.CreateChild("Pickup");
+                node.Position = (position);
 
                 //don't place them when the angle is too steep
                 //TODO check not too close to a wall too
@@ -590,18 +602,30 @@ namespace Heighten
                 if (terrainNormal.Y < 0.8)
                     continue;
 
-                objectNode.SetScale(2.0f);
+                node.SetScale(2.0f);
 
-                Sphere sm = objectNode.CreateComponent<Sphere>();
+                Sphere sm = node.CreateComponent<Sphere>();
                 sm.CastShadows = false;
                 sm.Color = new Color(1f, 1f, 0.2f, 0.7f);
 
-                var body = objectNode.CreateComponent<RigidBody>();
+                var body = node.CreateComponent<RigidBody>();
                 body.CollisionLayer = CollisionLayer.Pickup;
                 body.Trigger = true;
-                var shape = objectNode.CreateComponent<CollisionShape>();
-                shape.SetBox (Vector3.One, Vector3.Zero, Quaternion.Identity);
+                var shape = node.CreateComponent<CollisionShape>();
+                shape.SetBox(Vector3.One, Vector3.Zero, Quaternion.Identity);
+                return node;
             }
+            return null;
+        }
+
+        async void SpawnPickupAndFadeIn()
+        {
+            var node = SpawnPickup();
+            if (node == null)
+                return;
+            node.GetComponent<RigidBody>().Enabled = false;
+            await node.RunActionsAsync(new Urho.Actions.FadeIn (0.2f));
+            node.GetComponent<RigidBody>().Enabled = true;
         }
 
         static readonly Random random = new Random();
