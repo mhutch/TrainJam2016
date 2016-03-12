@@ -28,6 +28,21 @@ public static class Assets
 			public const string Sphere = "Models/Sphere.mdl";
 	}
 
+	public static class Sounds
+	{
+			public const string Cancel = "Sounds/Cancel.wav";
+			public const string Cancel2 = "Sounds/Cancel2.wav";
+			public const string Cancel3 = "Sounds/Cancel3.wav";
+			public const string Collect = "Sounds/Collect.wav";
+			public const string Footstep1 = "Sounds/Footstep1.wav";
+			public const string Footstep2 = "Sounds/Footstep2.wav";
+			public const string Footstep3 = "Sounds/Footstep3.wav";
+			public const string Footstep4 = "Sounds/Footstep4.wav";
+			public const string Footstep5 = "Sounds/Footstep5.wav";
+			public const string Footstep6 = "Sounds/Footstep6.wav";
+			public const string Footstep7 = "Sounds/Footstep7.wav";
+	}
+
 	public static class Techniques
 	{
 	}

@@ -61,6 +61,17 @@
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\VehicleWheel.xml" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleWheel.png" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\VehicleHull.png" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel2.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Cancel3.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Collect.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep1.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep2.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep3.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep4.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep5.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep6.wav" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Sounds\Footstep7.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets.tt">
@@ -72,6 +83,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Assets.cs">
       <DependentUpon>Assets.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Data\Sounds\" />
   </ItemGroup>
   <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 

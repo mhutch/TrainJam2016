@@ -29,6 +29,7 @@ using Urho.Resources;
 using Urho.Shapes;
 using Urho.Gui;
 using System.Threading.Tasks;
+using Urho.Audio;
 
 namespace TrainJam2016
 {
@@ -335,6 +336,7 @@ namespace TrainJam2016
             //SpawnObstacles(cache, terrain);
 
             physicsWorld.SubscribeToPhysicsCollision(HandlePhysicsCollision);
+            physicsWorld.SubscribeToPhysicsCollisionStart(HandlePhysicsCollisionStart);
         }
 
         void HandlePhysicsCollision(PhysicsCollisionEventArgs args)
@@ -346,59 +348,125 @@ namespace TrainJam2016
             if (layers == (CollisionLayer.Pickup | CollisionLayer.Vehicle))
             {
                 var node = (layerA == CollisionLayer.Pickup) ? args.NodeA : args.NodeB;
-                node.GetComponent<RigidBody>().Enabled = false;
-                ScaleFadeAndDisappear(node, 0.5f, 1.5f);
-                SpawnStackingBlock();
+                HandlePickup(node);
                 return;
             }
 
             if (layers == (CollisionLayer.Block | CollisionLayer.Terrain))
             {
                 var node = (layerA == CollisionLayer.Block) ? args.NodeA : args.NodeB;
-                node.GetComponent<RigidBody>().CollisionMask ^= CollisionLayer.Terrain;
-                ScaleAndDisappear(node, 0.5f, 0.01f);
-                UpdateCountLabel(-1);
+                BlockLost(node);
                 return;
             }
         }
 
-        static async void ScaleAndDisappear(Node node, float duration, float scale)
+        void HandlePhysicsCollisionStart(PhysicsCollisionStartEventArgs args)
         {
-            await node.RunActionsAsync(new Urho.Actions.ScaleBy(duration, scale));
+            var layerA = args.BodyA.CollisionLayer;
+            var layerB = args.BodyB.CollisionLayer;
+            var layers = layerA | layerB;
+
+            //if block contacts block or vehicle
+            if (layers == (CollisionLayer.Block | CollisionLayer.Vehicle) || layers == CollisionLayer.Block)
+            {
+                //play click sound
+                var source = vehicle.Node.CreateComponent<SoundSource>();
+                var sound = GetNextClickSound();
+                source.Play(sound);
+                source.Gain = 0.2f;
+                source.AutoRemove = true;
+                return;
+            }
+        }
+
+        async void HandlePickup(Node node)
+        {
+            node.GetComponent<RigidBody>().Enabled = false;
+
+            var source = node.CreateComponent<SoundSource>();
+            var sound = ResourceCache.GetSound(Assets.Sounds.Collect);
+            source.Play(sound);
+            source.Gain = 0.5f;
+
+            SpawnStackingBlock();
+
+            float duration = 0.5f, scale = 1.5f;
+            var animateAway = node.RunActionsAsync(
+                new Urho.Actions.Parallel(
+                    new Urho.Actions.ScaleBy(duration, scale),
+                    new Urho.Actions.FadeOut(duration)
+                )
+            );
+
+            await Task.WhenAll(animateAway, Task.Delay((int)(sound.Length * 1000)));
             node.Remove();
         }
 
-        static async void ScaleFadeAndDisappear(Node node, float duration, float scale)
+        async void BlockLost(Node node)
         {
-            await node.RunActionsAsync(new Urho.Actions.Parallel (
-                new Urho.Actions.ScaleBy(duration, scale),
-                new Urho.Actions.FadeOut (duration)
-            ));
+            //fall through terrain
+            node.GetComponent<RigidBody>().CollisionMask ^= CollisionLayer.Terrain;
+
+            UpdateCountLabel(-1);
+
+            var source = node.CreateComponent<SoundSource>();
+            var sound = GetNextLossSound();
+            source.Play(sound);
+            source.Gain = 0.5f;
+
+            float duration = 0.5f, scale = 1.5f;
+            var animateAway = node.RunActionsAsync(
+                  new Urho.Actions.ScaleBy(duration, scale)
+            );
+
+            await Task.WhenAll(animateAway, Task.Delay((int)(sound.Length * 1000)));
             node.Remove();
+        }
+
+        int lossSoundIndex;
+        string[] lossSounds = {
+            Assets.Sounds.Cancel,
+            Assets.Sounds.Cancel2,
+            Assets.Sounds.Cancel3
+        };
+
+        Sound GetNextLossSound()
+        {
+            lossSoundIndex = (lossSoundIndex + 1) % lossSounds.Length;
+            return ResourceCache.GetSound(lossSounds[lossSoundIndex]);
+        }
+
+        int clickSoundIndex;
+        string[] clickSounds = {
+            Assets.Sounds.Cancel,
+            Assets.Sounds.Cancel2,
+            Assets.Sounds.Cancel3
+        };
+
+        Sound GetNextClickSound()
+        {
+            clickSoundIndex = (clickSoundIndex + 1) % clickSounds.Length;
+            return ResourceCache.GetSound(clickSounds[clickSoundIndex]);
         }
 
         int blockMaterialIndex;
-        Material[] blockMaterials;
+        string[] blockMaterials = {
+            Assets.Materials.Block1,
+            Assets.Materials.Block2,
+            Assets.Materials.Block3,
+            Assets.Materials.Block4,
+            Assets.Materials.Block5
+        };
 
         Material GetNextBlockMaterial ()
         {
-            if (blockMaterials == null)
-            {
-                blockMaterials = new Material[] {
-                    ResourceCache.GetMaterial(Assets.Materials.Block1),
-                     ResourceCache.GetMaterial(Assets.Materials.Block2),
-                     ResourceCache.GetMaterial(Assets.Materials.Block3),
-                     ResourceCache.GetMaterial(Assets.Materials.Block4),
-                     ResourceCache.GetMaterial(Assets.Materials.Block5)
-                };
-            }
             blockMaterialIndex = (blockMaterialIndex + 1) % blockMaterials.Length;
-            return blockMaterials[blockMaterialIndex];
+            return ResourceCache.GetMaterial(blockMaterials[blockMaterialIndex]);
         }
 
         const float minBlockSpawnDelay = 1f;
+        //hopefully precision won't be an issue
         float lastBlockSpawnTime;
-
 
         void SpawnStackingBlock()
         {

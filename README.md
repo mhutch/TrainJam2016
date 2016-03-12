@@ -19,7 +19,6 @@ Maximum Capacity
 * Terrain map
 * Terrain texture
 * Prettier pickups
-* Sound
 * Music
 * Better encouragement messages
 * Splash / credits
@@ -31,9 +30,12 @@ Maximum Capacity
 ### Credits
 
 * Design and programming: [Mikayla Hutchinson](https://mhut.ch) ([@mjhutchinson](https://twitter.com/mjhutchinson))
+* Sound design: Logan Hayes ([@dynamix_audio](https://twitter.com/dynamix_audio))
 
 ### License
 
 **Code:** MIT License.
 
 **Art:** CC-0 (Creative Commons Zero)
+
+**Sound:** Copyright, may only be redistributed with unmodified version of this game.
