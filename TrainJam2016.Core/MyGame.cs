@@ -236,6 +236,7 @@ namespace TrainJam2016
             vehicle.hullBody.Friction = 1f;
         }
 
+        float worldSize;
 
         void CreateScene()
         {
@@ -243,7 +244,13 @@ namespace TrainJam2016
 
             scene = new Scene();
 
+            var terrainPatchSize = 16;
+            var terrainSpacing = new Vector3(0.5f, 0.1f, 0.5f);
+            var heightMap = cache.GetImage(Assets.Textures.HeightMap);
+
+            worldSize = heightMap.Width * terrainSpacing.X;
             // Create scene subsystem components
+
             scene.CreateComponent<Octree>();
             var physicsWorld = scene.CreateComponent<PhysicsWorld>();
 
@@ -261,7 +268,7 @@ namespace TrainJam2016
             zone.FogColor = new Color(0.5f, 0.5f, 0.7f);
             zone.FogStart = 300.0f;
             zone.FogEnd = 500.0f;
-            zone.SetBoundingBox(new BoundingBox(-2000.0f, 2000.0f));
+            zone.SetBoundingBox(new BoundingBox(-worldSize / 2f, worldSize / 2f));
 
             // Create a directional light with cascaded shadow mapping
             Node lightNode = scene.CreateChild("DirectionalLight");
@@ -287,11 +294,11 @@ namespace TrainJam2016
             Node terrainNode = scene.CreateChild("Terrain");
             terrainNode.Position = (Vector3.Zero);
             terrain = terrainNode.CreateComponent<Terrain>();
-            terrain.PatchSize = 64;
-            terrain.Spacing = new Vector3(2.0f, 0.1f, 2.0f); // Spacing between vertices and vertical resolution of the height map
-            terrain.Smoothing = true;
-            terrain.SetHeightMap(cache.GetImage(Assets.Textures.HeightMap));
-            terrain.Material = cache.GetMaterial(Assets.Materials.Terrain);
+            terrain.PatchSize = terrainPatchSize;
+            terrain.Spacing = terrainSpacing; // Spacing between vertices and vertical resolution of the height map
+            terrain.Smoothing = false;
+            terrain.SetHeightMap(heightMap);
+            terrain.Material = cache.GetMaterial(Assets.Materials.Terrain2);
             // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
             // terrain patches and other objects behind it
             terrain.Occluder = true;
@@ -469,7 +476,7 @@ namespace TrainJam2016
             for (uint i = 0; i < count; ++i)
             {
                 Node objectNode = scene.CreateChild("Mushroom");
-                Vector3 position = new Vector3(NextRandom(2000.0f) - 1000.0f, 0.0f, NextRandom(2000.0f) - 1000.0f);
+                Vector3 position = new Vector3(NextRandom(worldSize) - worldSize / 2f, 0.0f, NextRandom(worldSize) - worldSize / 2f);
                 position.Y = terrain.GetHeight(position) - 0.1f;
                 objectNode.Position = (position);
                 // Create a rotation quaternion from up vector to terrain normal
@@ -489,11 +496,11 @@ namespace TrainJam2016
 
         void SpawnPickups (ResourceCache cache, Terrain terrain)
         {
-            const uint count = 1000;
+            const uint count = 100;
             for (uint i = 0; i < count; ++i)
             {
                 Node objectNode = scene.CreateChild("Pickup");
-                Vector3 position = new Vector3(NextRandom(2000.0f) - 1000.0f, 0.0f, NextRandom(2000.0f) - 1000.0f);
+                Vector3 position = new Vector3(NextRandom(worldSize) - worldSize / 2f, 0.0f, NextRandom(worldSize) - worldSize /2f);
                 position.Y = terrain.GetHeight(position) + 1.8f;
                 objectNode.Position = (position);
                 // Create a rotation quaternion from up vector to terrain normal
