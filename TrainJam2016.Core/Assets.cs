@@ -8,6 +8,7 @@ public static class Assets
 
 	public static class Materials
 	{
+			public const string Block1 = "Materials/Block1.xml";
 			public const string Mushroom = "Materials/Mushroom.xml";
 			public const string Stone = "Materials/Stone.xml";
 			public const string Terrain = "Materials/Terrain.xml";
@@ -26,6 +27,7 @@ public static class Assets
 
 	public static class Textures
 	{
+			public const string Block1 = "Textures/Block1.png";
 			public const string HeightMap = "Textures/HeightMap.png";
 			public const string Mushroom = "Textures/Mushroom.dds";
 			public const string StoneDiffuse = "Textures/StoneDiffuse.dds";

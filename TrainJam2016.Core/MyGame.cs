@@ -316,7 +316,7 @@ namespace TrainJam2016
             {
                 var node = (layerA == CollisionLayer.Pickup) ? args.NodeA : args.NodeB;
                 node.GetComponent<RigidBody>().Enabled = false;
-                ScaleAndDisappear(node, 0.5f, 1.5f);
+                ScaleFadeAndDisappear(node, 0.5f, 1.5f);
                 SpawnStackingBlock();
                 return;
             }
@@ -325,13 +325,19 @@ namespace TrainJam2016
             {
                 var node = (layerA == CollisionLayer.Block) ? args.NodeA : args.NodeB;
                 node.GetComponent<RigidBody>().CollisionMask ^= CollisionLayer.Terrain;
-                ScaleAndDisappear(node, 0.5f, 0.2f);
+                ScaleAndDisappear(node, 0.5f, 0.01f);
                 UpdateCountLabel(-1);
                 return;
             }
         }
 
-        public static async void ScaleAndDisappear(Node node, float duration, float scale)
+        static async void ScaleAndDisappear(Node node, float duration, float scale)
+        {
+            await node.RunActionsAsync(new Urho.Actions.ScaleBy(duration, scale));
+            node.Remove();
+        }
+
+        static async void ScaleFadeAndDisappear(Node node, float duration, float scale)
         {
             await node.RunActionsAsync(new Urho.Actions.Parallel (
                 new Urho.Actions.ScaleBy(duration, scale),
@@ -361,6 +367,8 @@ namespace TrainJam2016
 
             var box = node.CreateComponent<Box>();
             box.CastShadows = true;
+            var mat = new Material();
+            box.SetMaterial(ResourceCache.GetMaterial(Assets.Materials.Block1));
 
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;
@@ -390,7 +398,8 @@ namespace TrainJam2016
 
             node.Position = pos;
 
-            node.RunActionsAsync(new Urho.Actions.FadeIn(0.2f));
+            node.Scale /= 100f;
+            node.RunActionsAsync(new Urho.Actions.ScaleTo(0.2f, 3f, 1f, 3f));
         }
 
         int liveBlocks;

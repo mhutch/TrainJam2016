@@ -19,6 +19,9 @@ foreach (var d in directories) {
 		var files = Directory.GetFiles(d);
 		foreach (var f in files) {
 			var fileName = Path.GetFileNameWithoutExtension(f);
+			var ex = Path.GetExtension(f);
+			if (ex == ".psd")
+				continue;
 			if (string.IsNullOrEmpty (fileName))
 				continue;
 			var assetPath = f.Substring(dataDir.Length+1).Replace('\\','/');

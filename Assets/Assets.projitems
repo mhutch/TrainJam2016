@@ -45,6 +45,8 @@
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick_Samples.xml" />
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\ScreenJoystick.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Block1.xml" />
+    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Block1.png" />
   </ItemGroup>
   <Target Name="_AddUrhoIosAssets" BeforeTargets="PrepareForBuild">
     <AssignLinkMetadata Items="@(UrhoAsset)" Condition="'@(UrhoAsset)' != '' and '%(UrhoAsset.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'"> 
