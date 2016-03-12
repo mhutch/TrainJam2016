@@ -21,4 +21,6 @@ Heighten is a TrainJam 2016 Game. The theme is 'Maximum Capacity'.
 
 **Art:** CC-0 (Creative Commons Zero).
 
-**Sound:** Copyright, may only be redistributed with unmodified version of this game.
+**Sound:** Copyright, may be redistributed only with unmodified version of this game.
+
+**This project includes code and assets from UrhoSharp and Urho3D which are subject to the license terms of those projects.**
