@@ -3,7 +3,8 @@ using Urho;
 using Urho.Physics;
 using Urho.Resources;
 using Urho.Shapes;
-using System.Collections.Generic;
+using Urho.Gui;
+using System.Threading.Tasks;
 
 namespace TrainJam2016
 {
@@ -39,7 +40,13 @@ namespace TrainJam2016
             SubscribeToEvents();
 
             CreateConsoleAndDebugHud();
+
+            CreateUI();
+
+            RunMessages("Stack as many blocks as you can!");
         }
+
+        bool hadFirstInput = false;
 
         void HandleKeyDown(KeyDownEventArgs e)
         {
@@ -126,10 +133,20 @@ namespace TrainJam2016
                 // Get movement controls and assign them to the vehicle component. If UI has a focused element, clear controls
                 if (UI.FocusElement == null)
                 {
-                    vehicle.Controls.Set(Vehicle.CtrlForward, input.GetKeyDown(Key.W) || input.GetKeyDown(Key.Up));
-                    vehicle.Controls.Set(Vehicle.CtrlBack, input.GetKeyDown(Key.S) || input.GetKeyDown(Key.Down));
-                    vehicle.Controls.Set(Vehicle.CtrlLeft, input.GetKeyDown(Key.A) || input.GetKeyDown(Key.Left));
-                    vehicle.Controls.Set(Vehicle.CtrlRight, input.GetKeyDown(Key.D) || input.GetKeyDown(Key.Right));
+                    var forward = input.GetKeyDown(Key.W) || input.GetKeyDown(Key.Up);
+                    var back    = input.GetKeyDown(Key.S) || input.GetKeyDown(Key.Down);
+                    var left    = input.GetKeyDown(Key.A) || input.GetKeyDown(Key.Left);
+                    var right  = input.GetKeyDown(Key.D) || input.GetKeyDown(Key.Right);
+                    vehicle.Controls.Set(Vehicle.CtrlForward, forward);
+                    vehicle.Controls.Set(Vehicle.CtrlBack, back);
+                    vehicle.Controls.Set(Vehicle.CtrlLeft, left);
+                    vehicle.Controls.Set(Vehicle.CtrlRight, right);
+
+                    if (!hadFirstInput && (forward || back || left || right))
+                    {
+                        hadFirstInput = true;
+                        RunMessages("");
+                    }
 
                     // Add yaw & pitch from the mouse motion or touch input. Used only for the camera, does not affect motion
                     if (TouchEnabled)
@@ -276,6 +293,7 @@ namespace TrainJam2016
                 var node = (layerA == CollisionLayer.Block) ? args.NodeA : args.NodeB;
                 node.GetComponent<RigidBody>().CollisionMask ^= CollisionLayer.Terrain;
                 ScaleAndDisappear(node, 0.5f, 0.2f);
+                UpdateCountLabel(-1);
                 return;
             }
         }
@@ -289,7 +307,6 @@ namespace TrainJam2016
             node.Remove();
         }
 
-        int liveBlocks;
         const float minBlockSpawnDelay = 1f;
         float lastBlockSpawnTime;
 
@@ -303,7 +320,7 @@ namespace TrainJam2016
             }
             lastBlockSpawnTime = time;
 
-            liveBlocks++;
+            UpdateCountLabel(1);
 
             Node node = scene.CreateChild("StackingBlock");
             node.Scale = new Vector3(3f, 1f, 3f);
@@ -341,6 +358,47 @@ namespace TrainJam2016
             node.Position = pos;
 
             node.RunActionsAsync(new Urho.Actions.FadeIn(0.2f));
+        }
+
+        int liveBlocks;
+
+        void UpdateCountLabel(int delta)
+        {
+            liveBlocks += delta;
+
+            if (liveBlocks == 0)
+            {
+                RunMessages("Awwwwww!", "Try again!", "");
+                return;
+            }
+            if (liveBlocks == 1 && delta == 1)
+            {
+                RunMessages("Good start!", "");
+                return;
+            }
+            if (liveBlocks == 1 && delta == -1)
+            {
+                RunMessages("Almost back where you started...", "");
+                return;
+            }
+            RunMessages ($"{liveBlocks} blocks", "");
+        }
+
+        TaskCompletionSource<bool> nextMessage;
+        async void RunMessages(params string[] messages)
+        {
+            if (nextMessage != null)
+                nextMessage.TrySetResult (false);
+            var tcs = nextMessage = new TaskCompletionSource<bool>();
+
+            foreach (var m in messages)
+            {
+                countLabel.Value = m;
+                await Task.WhenAny(Task.Delay(2000), tcs.Task);
+                if (tcs.Task.IsCompleted)
+                    return;
+            }
+            tcs.TrySetResult(true);
         }
 
         void SpawnObstacles(ResourceCache cache, Terrain terrain)
@@ -447,14 +505,18 @@ namespace TrainJam2016
             debugHud = Engine.CreateDebugHud();
             debugHud.DefaultStyle = xml;
         }
-   }
 
-    class CollisionLayer
-    {
-        public static uint Vehicle = 1;
-        public static uint Static = 1 << 1;
-        public static uint Pickup = 1 << 2;
-        public static uint Block = 1 << 3;
-        public static uint Terrain = 1 << 4;
-    }
+        Text countLabel;
+
+        void CreateUI()
+        {
+            countLabel = new Text(Context);
+            countLabel.Value = "";
+            countLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            countLabel.VerticalAlignment = VerticalAlignment.Top;
+            countLabel.SetColor(new Color(r: 0f, g: 1f, b: 1f));
+            countLabel.SetFont(font: ResourceCache.GetFont("Fonts/Font.ttf"), size: 30);
+            UI.Root.AddChild(countLabel);
+        }
+   }
 }

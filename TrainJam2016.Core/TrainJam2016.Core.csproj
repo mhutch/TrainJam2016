@@ -43,6 +43,7 @@
     <Compile Include="Assets.cs">
       <DependentUpon>Assets.tt</DependentUpon>
     </Compile>
+    <Compile Include="CollisionLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Urho, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

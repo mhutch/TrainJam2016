@@ -17,7 +17,6 @@ Maximum Capacity
 
 ### Plan
 
-* Stacking physics
 * Terrain art
 * Prettier pickups
 * Prettier vehicle
