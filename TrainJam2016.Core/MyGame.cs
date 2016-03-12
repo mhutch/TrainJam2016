@@ -256,7 +256,7 @@ namespace TrainJam2016
             light.SpecularIntensity = 0.5f;
 
             lightNode = scene.CreateChild("DirectionalLight");
-            lightNode.SetDirection(new Vector3(-0.3f, -0.5f, 0.425f));
+            lightNode.SetDirection(new Vector3(-0.3f, -0.5f, -0.425f));
             light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
             light.Color = Color.Magenta;
@@ -269,8 +269,8 @@ namespace TrainJam2016
             terrainNode.Position = (Vector3.Zero);
             terrain = terrainNode.CreateComponent<Terrain>();
             terrain.PatchSize = 64;
-            terrain.Spacing = new Vector3(32.0f, 0.15f, 32.0f); // Spacing between vertices and vertical resolution of the height map
-            terrain.Smoothing = false;
+            terrain.Spacing = new Vector3(2.0f, 0.1f, 2.0f); // Spacing between vertices and vertical resolution of the height map
+            terrain.Smoothing = true;
             terrain.SetHeightMap(cache.GetImage(Assets.Textures.HeightMap));
             terrain.Material = cache.GetMaterial(Assets.Materials.Terrain);
             // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
