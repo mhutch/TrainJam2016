@@ -123,7 +123,9 @@ namespace TrainJam2016
                 Ray cameraRay = new Ray(cameraStartPos, cameraTargetPos - cameraStartPos);
                 float cameraRayLength = (cameraTargetPos - cameraStartPos).Length;
                 var result = new PhysicsRaycastResult();
-                scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(ref result, cameraRay, cameraRayLength, 2);
+                scene.GetComponent<PhysicsWorld>().RaycastSingleNoCrash(
+                    ref result, cameraRay, cameraRayLength,
+                    CollisionLayer.Static | CollisionLayer.Terrain);
 
                 if (result.Body != null)
                 {
