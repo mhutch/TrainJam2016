@@ -319,7 +319,7 @@ namespace Heighten
             lightNode.SetDirection(new Vector3(-0.3f, -0.5f, -0.425f));
             light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
-            light.Color = Color.White;
+            light.Color = Color.Gray;
             light.CastShadows = false;
             light.ShadowBias = new BiasParameters(0.00025f, 0.5f);
             light.SpecularIntensity = 0.5f;
@@ -330,7 +330,7 @@ namespace Heighten
             terrain = terrainNode.CreateComponent<Terrain>();
             terrain.PatchSize = terrainPatchSize;
             terrain.Spacing = terrainSpacing; // Spacing between vertices and vertical resolution of the height map
-            terrain.Smoothing = false;
+            terrain.Smoothing = true;
             terrain.SetHeightMap(heightMap);
             terrain.Material = cache.GetMaterial(Assets.Materials.Terrain2);
             // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
