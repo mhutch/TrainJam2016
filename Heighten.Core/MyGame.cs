@@ -494,9 +494,12 @@ namespace Heighten
 
             if (liveBlocks == 0)
             {
+                blockLabel.Value = "";
                 RunMessages("Awwwww...", "Try again!", "");
                 return;
             }
+
+            blockLabel.Value = liveBlocks.ToString ().PadLeft (3);
 
             if (delta > 0)
             {
@@ -657,7 +660,7 @@ namespace Heighten
             debugHud.DefaultStyle = xml;
         }
 
-        Text countLabel;
+        Text countLabel, blockLabel;
 
         void CreateUI()
         {
@@ -665,9 +668,17 @@ namespace Heighten
             countLabel.Value = "";
             countLabel.HorizontalAlignment = HorizontalAlignment.Center;
             countLabel.VerticalAlignment = VerticalAlignment.Top;
-            countLabel.SetColor(new Color(r: 0f, g: 1f, b: 1f));
+            countLabel.SetColor(Color.Red);
             countLabel.SetFont(font: ResourceCache.GetFont("Fonts/Font.ttf"), size: 30);
             UI.Root.AddChild(countLabel);
+
+            blockLabel = new Text(Context);
+            blockLabel.Value = "";
+            blockLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            blockLabel.VerticalAlignment = VerticalAlignment.Bottom;
+            blockLabel.SetColor(Color.Red);
+            blockLabel.SetFont(font: ResourceCache.GetFont("Fonts/Font.ttf"), size: 30);
+            UI.Root.AddChild(blockLabel);
         }
    }
 }
