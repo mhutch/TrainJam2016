@@ -301,7 +301,7 @@ namespace TrainJam2016
             CollisionShape shape = terrainNode.CreateComponent<CollisionShape>();
             shape.SetTerrain(0);
 
-            SpawnObstacles(cache, terrain);
+            //SpawnObstacles(cache, terrain);
 
             physicsWorld.SubscribeToPhysicsCollision(HandlePhysicsCollision);
         }
