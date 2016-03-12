@@ -15,29 +15,7 @@
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Sphere.mdl">
     </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Mushroom.xml">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Terrain.xml">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail1.dds">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail2.dds">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainDetail3.dds">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\TerrainWeights.dds">
-    </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\HeightMap.png">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Models\Mushroom.mdl">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\Mushroom.dds">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Materials\Stone.xml">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneDiffuse.dds">
-    </UrhoAsset>
-    <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\Textures\StoneNormal.dds">
     </UrhoAsset>
     <UrhoAsset Include="$(MSBuildThisFileDirectory)Data\UI\DefaultStyle.xml">
     </UrhoAsset>
