@@ -24,13 +24,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using Urho.Audio;
+using Urho;
+
 namespace TrainJam2016
 {
-    public class Assets_Get
+    public partial class Assets
     {
-        public Assets_Get()
+        static int lossSoundIndex = -1;
+        static readonly string[] lossSounds = {
+            Sounds.Cancel,
+            Sounds.Cancel2,
+            Sounds.Cancel3
+        };
+
+        public static Sound GetNextLossSound()
         {
+            lossSoundIndex = (lossSoundIndex + 1) % lossSounds.Length;
+            return Application.Current.ResourceCache.GetSound(lossSounds[lossSoundIndex]);
         }
+
+        static int clickSoundIndex = -1;
+        static readonly string[] clickSounds = {
+            Sounds.Footstep1,
+            Sounds.Footstep2,
+            Sounds.Footstep3,
+            Sounds.Footstep4,
+            Sounds.Footstep5,
+            Sounds.Footstep6,
+            Sounds.Footstep7
+        };
+
+        public static Sound GetNextClickSound()
+        {
+            clickSoundIndex = (clickSoundIndex + 1) % clickSounds.Length;
+            return Application.Current.ResourceCache.GetSound(clickSounds[clickSoundIndex]);
+        }
+
+        static int blockMaterialIndex = -1;
+        static readonly string[] blockMaterials = {
+            Materials.Block1,
+            Materials.Block2,
+            Materials.Block3,
+            Materials.Block4,
+            Materials.Block5
+        };
+
+        public static Material GetNextBlockMaterial()
+        {
+            blockMaterialIndex = (blockMaterialIndex + 1) % blockMaterials.Length;
+            return Application.Current.ResourceCache.GetMaterial(blockMaterials[blockMaterialIndex]);
+        }
+
     }
 }
 

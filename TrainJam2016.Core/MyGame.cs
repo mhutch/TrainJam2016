@@ -371,7 +371,7 @@ namespace TrainJam2016
             {
                 //play click sound
                 var source = vehicle.Node.CreateComponent<SoundSource>();
-                var sound = GetNextClickSound();
+                var sound = Assets.GetNextClickSound();
                 source.Play(sound);
                 source.Gain = 0.2f;
                 source.AutoRemove = true;
@@ -410,7 +410,7 @@ namespace TrainJam2016
             UpdateCountLabel(-1);
 
             var source = node.CreateComponent<SoundSource>();
-            var sound = GetNextLossSound();
+            var sound = Assets.GetNextLossSound();
             source.Play(sound);
             source.Gain = 0.5f;
 
@@ -421,47 +421,6 @@ namespace TrainJam2016
 
             await Task.WhenAll(animateAway, Task.Delay((int)(sound.Length * 1000)));
             node.Remove();
-        }
-
-        int lossSoundIndex;
-        string[] lossSounds = {
-            Assets.Sounds.Cancel,
-            Assets.Sounds.Cancel2,
-            Assets.Sounds.Cancel3
-        };
-
-        Sound GetNextLossSound()
-        {
-            lossSoundIndex = (lossSoundIndex + 1) % lossSounds.Length;
-            return ResourceCache.GetSound(lossSounds[lossSoundIndex]);
-        }
-
-        int clickSoundIndex;
-        string[] clickSounds = {
-            Assets.Sounds.Cancel,
-            Assets.Sounds.Cancel2,
-            Assets.Sounds.Cancel3
-        };
-
-        Sound GetNextClickSound()
-        {
-            clickSoundIndex = (clickSoundIndex + 1) % clickSounds.Length;
-            return ResourceCache.GetSound(clickSounds[clickSoundIndex]);
-        }
-
-        int blockMaterialIndex;
-        string[] blockMaterials = {
-            Assets.Materials.Block1,
-            Assets.Materials.Block2,
-            Assets.Materials.Block3,
-            Assets.Materials.Block4,
-            Assets.Materials.Block5
-        };
-
-        Material GetNextBlockMaterial ()
-        {
-            blockMaterialIndex = (blockMaterialIndex + 1) % blockMaterials.Length;
-            return ResourceCache.GetMaterial(blockMaterials[blockMaterialIndex]);
         }
 
         const float minBlockSpawnDelay = 1f;
@@ -486,7 +445,7 @@ namespace TrainJam2016
 
             var box = node.CreateComponent<Box>();
             box.CastShadows = true;
-            box.SetMaterial(GetNextBlockMaterial ());
+            box.SetMaterial(Assets.GetNextBlockMaterial ());
 
             var body = node.CreateComponent<RigidBody>();
             body.CollisionLayer = CollisionLayer.Block;

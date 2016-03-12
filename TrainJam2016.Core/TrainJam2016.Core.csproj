@@ -44,6 +44,7 @@
     <Compile Include="..\Assets\Assets.cs">
       <Link>Assets.cs</Link>
     </Compile>
+    <Compile Include="Assets_Get.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Urho, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

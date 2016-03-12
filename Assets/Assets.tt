@@ -4,7 +4,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 
-public static class Assets
+namespace TrainJam2016
+{
+
+public partial class Assets
 {
 <#
 //TODO: find a way to check they're actually in the project
@@ -35,4 +38,5 @@ foreach (var d in directories) {
 <#
 }
 #>
+}
 }

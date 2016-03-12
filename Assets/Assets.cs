@@ -1,5 +1,8 @@
 ﻿﻿
-public static class Assets
+namespace TrainJam2016
+{
+
+public partial class Assets
 {
 	public static class Fonts
 	{
@@ -75,4 +78,5 @@ public static class Assets
 			public const string ScreenJoystick_Samples = "UI/ScreenJoystick_Samples.xml";
 	}
 
+}
 }
