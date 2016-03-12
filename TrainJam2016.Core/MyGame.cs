@@ -29,6 +29,8 @@ namespace TrainJam2016
 
         protected override void Start()
         {
+            Graphics.WindowTitle = GameName;
+
             InitTouchInput();
 
             Input.SubscribeToKeyDown(HandleKeyDown);
