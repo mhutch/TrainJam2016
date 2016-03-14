@@ -50,7 +50,7 @@ namespace Heighten
 
         public Node CameraNode { get; private set; }
 
-        public MyGame() : base(new ApplicationOptions("Data") { })
+        public MyGame() : base(new ApplicationOptions("Data") { WindowedMode = false })
         {
             syncContext = new ListBasedUpdateSynchronizationContext(
                 new List<Action>()
@@ -88,6 +88,9 @@ namespace Heighten
                         Engine.Exit();
                     else
                         Restart();
+                    return;
+                case Key.F:
+                    Graphics.ToggleFullscreen();
                     return;
                 case Key.F1:
                     console.Toggle();
