@@ -111,8 +111,12 @@ namespace Heighten
             if (vehicle != null)
             {
                 vehicle.Destroy();
-                scene.RemoveComponents(new StringHash("Pickup"));
-                scene.RemoveComponents(new StringHash("StackingBlock"));
+                foreach (var c in scene.Children)
+                {
+                    var name = c.Name;
+                    if (name == "StackingBlock" || name == "Pickup")
+                        c.Remove();
+                }
             }
 
             CreateVehicle();
