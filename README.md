@@ -4,6 +4,8 @@
 
 Heighten is a TrainJam 2016 Game. The theme is 'Maximum Capacity'.
 
+Binaries are available at https://mhutch.itch.io/heighten
+
 ### Concept
 
 * Vehicle driving game
